@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { TMongooseModel } from '../../common/interfaces/monoose.interface';
 import { Article } from './article.model';
-import { ModelType } from 'typegoose';
+import { PaginateResult } from 'mongoose';
 
 @Injectable()
 export class ArticleService {
@@ -11,8 +11,8 @@ export class ArticleService {
     private readonly articleModel: TMongooseModel<Article>,
   ) {}
 
-  async getArticles(): Promise<Article[]> {
-    const articles = await this.articleModel.find().exec();
+  async getArticles(query, options): Promise<PaginateResult<Article>> {
+    const articles = await this.articleModel.paginate(query, options);
     return articles;
   }
 

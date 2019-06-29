@@ -1,11 +1,25 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './common/filters/error.filter';
+import { LoggingInterceptor } from './common/interceptors/logger.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import * as CONFIG from './app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe({
+    disableErrorMessages: (CONFIG.APP.dev ? true : false),
+  }));
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new TransformInterceptor(new Reflector()),
+  );
   await app.listen(CONFIG.APP.port);
 }
-bootstrap();
+bootstrap().then(() => {
+  console.log(`service is runing at port${CONFIG.APP.port} env ${CONFIG.APP.env}`);
+});

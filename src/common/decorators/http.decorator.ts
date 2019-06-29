@@ -65,13 +65,7 @@ export function handle(...args) {
   const errCode: HttpStatus = isOption(option) ? option.error : null;
   const successCode: HttpStatus = isOption(option) ? option.success : null;
   const usePaginate: boolean = isOption(option) ? option.usePaginate : null;
-  console.log({
-    errCode,
-    successCode,
-    errMessage,
-    successMessage,
-    usePaginate,
-  })
+
   return buildHttpDecorator({
     errCode,
     successCode,

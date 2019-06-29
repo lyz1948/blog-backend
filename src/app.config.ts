@@ -1,9 +1,10 @@
-import { environment } from './app.environment';
+import { environment, isDevMode } from './app.environment';
 
 export const APP = {
   limit: 100,
   port: 5381,
-  evn: environment,
+  env: environment,
+  dev: isDevMode,
 };
 
 export const MONGO = {
@@ -21,4 +22,12 @@ export const CROSS_DOMAIN = {
 
 export const INFO = {
   version: '1.0.0',
+};
+
+export const USER = {
+  user: 'guest',
+  data: { user: 'root' },
+  defaultPwd: 'admin',
+  jwtTokenSecret: 'nestblog',
+  expiresIn: 3600,
 };
