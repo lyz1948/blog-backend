@@ -18,7 +18,7 @@ import { Article } from './article.model';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { PaginateResult } from 'mongoose';
 import { JwtAuthGuard } from '../../common/guards/auth.guard';
-import { HumanizedAuthorGuard } from '../../common/guards/HumanizedAuth.guard';
+import { HumanizedAuthorGuard } from '../../common/guards/humanizedAuth.guard';
 
 @Controller('article')
 export class ArticleController {
