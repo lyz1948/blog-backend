@@ -9,7 +9,7 @@ import { TagModule } from './modules/tag/tag.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import * as CONFIG from './app.config';
-import { CorsMiddleware } from './common/middleware/cros.middleware'
+import { CorsMiddleware } from './common/middleware/cros.middleware';
 @Module({
   imports: [
     TypegooseModule.forRoot(CONFIG.MONGO.uri),

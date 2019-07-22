@@ -27,7 +27,6 @@ export class UserService {
   }
 
   async getUsers(): Promise<User[]> {
-    console.log(this.makeBase64('admin'));
     return await this.userModel.find().exec();
   }
 
@@ -39,15 +38,15 @@ export class UserService {
   }
 
   async validateUser(payload: any): Promise<any> {
-    console.log(payload);
-    const isVerify = lodash.isEqual(payload.data, CONFIG.USER.user);
+    const isVerify = lodash.isEqual(payload.data, CONFIG.USER.data);
     return isVerify ? payload.data : null;
   }
 
   async signUp(user): Promise<User> {
     const { password } = user;
     user = Object.assign(user, { password: Base64.encode(password) });
-    return await new this.userModel(user).save();
+    const newUser = await new this.userModel(user).save();
+    return newUser;
   }
 
   async createToken(password: string): Promise<ITokenResult> {

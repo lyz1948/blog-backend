@@ -40,6 +40,7 @@ export class ArticleController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @HttpProcessor.handle('添加文章')
   async addArticle(@Res() res, @Body() newArticle: Article): Promise<Article> {
     const article = await this.articleService.addArticle(newArticle);
@@ -65,7 +66,7 @@ export class ArticleController {
     });
   }
 
-  @Delete()
+  @Delete('/:id')
   async deleteArticle(@Res() res, @Param('id') id) {
     const article = await this.articleService.deleteArticle(id);
     if (!article) {

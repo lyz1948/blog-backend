@@ -25,9 +25,9 @@ export const INFO = {
 };
 
 export const USER = {
-  user: 'guest',
+  user: 'root',
   data: { user: 'root' },
-  defaultPwd: 'admin',
+  defaultPwd: 'root',
   jwtTokenSecret: 'nestblog',
   expiresIn: 3600,
 };

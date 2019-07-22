@@ -1,5 +1,21 @@
-import { prop, Typegoose } from 'typegoose';
+import { prop, arrayProp, plugin, pre, Typegoose } from 'typegoose';
 import { IsDefined, IsString, IsNotEmpty } from 'class-validator';
+import {
+  mongoosePaginate,
+  mongooseAutoIncrement,
+} from '../../common/transforms/mongoose.transform';
+
+@pre<User>('findOneAndUpdate', function(next) {
+  this.findOneAndUpdate({}, { update_at: Date.now() });
+  next();
+})
+@plugin(mongoosePaginate)
+@plugin(mongooseAutoIncrement.plugin, {
+  model: User.name,
+  field: 'id',
+  startAt: 1,
+  incrementBy: 1,
+})
 
 export class User extends Typegoose {
   @IsDefined()
@@ -23,6 +39,10 @@ export class User extends Typegoose {
 }
 
 export class UserLogin extends Typegoose {
+  @IsDefined()
+  @IsNotEmpty({ message: '用户名？' })
+  @IsString({ message: '字符串？' })
+  username: string;
   @IsDefined()
   @IsNotEmpty({ message: '密码？' })
   @IsString({ message: '字符串？' })

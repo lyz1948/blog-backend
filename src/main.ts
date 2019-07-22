@@ -5,10 +5,13 @@ import { HttpExceptionFilter } from './common/filters/error.filter';
 import { LoggingInterceptor } from './common/interceptors/logger.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import * as CONFIG from './app.config';
+import * as BodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  app.use(BodyParser.urlencoded({ extended: true }));
+  app.use(BodyParser.json());
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({
     disableErrorMessages: (CONFIG.APP.dev ? true : false),
