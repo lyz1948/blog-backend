@@ -46,44 +46,43 @@ interface IValidateError {
   setValue(): void;
 }
 
-export const QueryDecorator = createParamDecorator((customConfig: TQueryConfig[], request)): IQueryParamsResult => {
-  
-  // 是否已验证权限
-  const isAuthenticated = request.isAuthenticated();
+// export const QueryDecorator = createParamDecorator((customConfig: TQueryConfig[], request)): IQueryParamsResult => {
+//   // 是否已验证权限
+//   const isAuthenticated = request.isAuthenticated();
 
-  const transformConfig: IQueryParamsConfig = {
-    [EQueryOptionField.Page]: 1,
-    [EQueryOptionField.PerPage]: true,
-    [EQueryOptionField.ParamsId]: 'id',
-    [EQueryOptionField.Sort]: true,
-  };
+//   const transformConfig: IQueryParamsConfig = {
+//     [EQueryOptionField.Page]: 1,
+//     [EQueryOptionField.PerPage]: true,
+//     [EQueryOptionField.ParamsId]: 'id',
+//     [EQueryOptionField.Sort]: true,
+//   };
 
-  if (customConfig) {
-    customConfig.forEach(field => {
-      if (lodash.isString(field)) {
-        transformConfig[field] = true;
-      }
-      if (lodash.isObject(field)) {
-        Object.assign(transformConfig, field);
-      }
-    })
-  }
+//   if (customConfig) {
+//     customConfig.forEach(field => {
+//       if (lodash.isString(field)) {
+//         transformConfig[field] = true;
+//       }
+//       if (lodash.isObject(field)) {
+//         Object.assign(transformConfig, field);
+//       }
+//     })
+//   }
 
-  const querys: IQueryParamsConfig = {}
-  const options: IQueryParamsConfig = {}
-  const params: IQueryParamsConfig = lodash.merge({ url: request.url }, request.params);
-  const date = request.query.date;
-  const paramsId = request.params[transformConfig.paramsId as string];
-  const qs = request.query
-  const [page, per_page, sort, state, ppublic, origin] = [
-    qs.page || transformConfig.page,
-    qs.per_page,
-    qs.sort,
-    qs.state,
-    qs.public,
-    qs.origin,
-  ].map(item => item != null ? Number(item) : item);
+//   const querys: IQueryParamsConfig = {}
+//   const options: IQueryParamsConfig = {}
+//   const params: IQueryParamsConfig = lodash.merge({ url: request.url }, request.params);
+//   const date = request.query.date;
+//   const paramsId = request.params[transformConfig.paramsId as string];
+//   const qs = request.query
+//   const [page, per_page, sort, state, ppublic, origin] = [
+//     qs.page || transformConfig.page,
+//     qs.per_page,
+//     qs.sort,
+//     qs.state,
+//     qs.public,
+//     qs.origin,
+//   ].map(item => item != null ? Number(item) : item);
 
-  // 验证字段是否被允许
-  const isEnableField = field => field != null && field !== false;
-}
+//   // 验证字段是否被允许
+//   const isEnableField = field => field != null && field !== false;
+// }
