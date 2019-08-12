@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Delete, Put, Res, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Put, Res, Param, HttpStatus, NotFoundException } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category.model';
 
@@ -13,7 +13,11 @@ export class CategoryController {
 
   @Post()
   async createCategory(@Res() res, @Body() newCate: Category): Promise<Category> {
-    return await this.categoryService.createCategory(newCate);
+    const cate = await this.categoryService.createCategory(newCate);
+    if (!cate) {
+      throw new NotFoundException('Article not found!');
+    }
+    return res.status(HttpStatus.OK).json(cate);
   }
 
   @Put('/:id')

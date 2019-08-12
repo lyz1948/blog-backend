@@ -9,8 +9,6 @@ import {
   Body,
   Delete,
   Put,
-  HttpCode,
-  UseInterceptors,
   UseGuards,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
@@ -25,7 +23,7 @@ export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Get()
-  @UseGuards(HumanizedAuthorGuard)
+  // @UseGuards(HumanizedAuthorGuard)
   @HttpProcessor.paginate()
   @HttpProcessor.handle('获取文章')
   getArticles(querys: string, options: any, origin, isAuthorized): Promise<PaginateResult<Article>> {

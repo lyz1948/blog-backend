@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Res, Body, Put, Delete, Param, HttpStatus, NotFoundException } from '@nestjs/common';
 import { TagService } from './tag.service';
 import { Tag } from './tag.model';
+import { HttpProcessor } from '../../common/decorators/http.decorator';
 
 @Controller('tag')
 export class TagController {
@@ -8,6 +9,7 @@ export class TagController {
 
   @Get()
   async getTags(): Promise<Tag[]> {
+    console.log('get tags');
     return await this.tagService.getTags();
   }
 
@@ -17,7 +19,9 @@ export class TagController {
   }
 
   @Post()
+  @HttpProcessor.handle({ message: '添加标签', usePaginate: false })
   async createTag(@Res() res, @Body() newTag: Tag): Promise<Tag> {
+    console.log('newTag', newTag);
     const tag = await this.tagService.createTag(newTag);
     if (!tag) {
       throw new NotFoundException('Article not found!');
@@ -31,6 +35,7 @@ export class TagController {
   }
 
   @Delete('/:id')
+  @HttpProcessor.handle({ message: '删除标签', usePaginate: false })
   async deleteTag(@Param('id') id): Promise<any> {
     return await this.tagService.deleteTag(id);
   }
