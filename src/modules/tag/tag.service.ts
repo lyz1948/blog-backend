@@ -16,6 +16,7 @@ export class TagService {
   }
 
   async createTag(newTag: Tag): Promise<Tag> {
+    console.log(newTag);
     return await new this.tagModule(newTag).save();
   }
 

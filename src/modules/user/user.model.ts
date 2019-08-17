@@ -1,4 +1,4 @@
-import { prop, arrayProp, plugin, pre, Typegoose } from 'typegoose';
+import { prop, plugin, pre, Typegoose } from 'typegoose';
 import { IsDefined, IsString, IsNotEmpty } from 'class-validator';
 import {
   mongoosePaginate,
@@ -43,6 +43,7 @@ export class UserLogin extends Typegoose {
   @IsNotEmpty({ message: '用户名？' })
   @IsString({ message: '字符串？' })
   username: string;
+
   @IsDefined()
   @IsNotEmpty({ message: '密码？' })
   @IsString({ message: '字符串？' })

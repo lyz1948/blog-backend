@@ -1,4 +1,5 @@
 import { NestFactory, Reflector } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/error.filter';
@@ -6,13 +7,14 @@ import { LoggingInterceptor } from './common/interceptors/logger.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import * as CONFIG from './app.config';
 import * as BodyParser from 'body-parser';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
+  app.setGlobalPrefix('api');
   app.use(BodyParser.urlencoded({ extended: true }));
   app.use(BodyParser.json());
-  app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({
     disableErrorMessages: (CONFIG.APP.dev ? true : false),
   }));
@@ -21,8 +23,9 @@ async function bootstrap() {
     new LoggingInterceptor(),
     new TransformInterceptor(new Reflector()),
   );
+  app.useStaticAssets(join(__dirname, '..', 'uploads'));
   await app.listen(CONFIG.APP.port);
 }
 bootstrap().then(() => {
-  console.log(`service is runing at port${CONFIG.APP.port} env ${CONFIG.APP.env}`);
+  console.log(`service is runing at port ${CONFIG.APP.port} env ${CONFIG.APP.env}`);
 });

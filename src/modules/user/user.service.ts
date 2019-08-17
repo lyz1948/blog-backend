@@ -26,6 +26,13 @@ export class UserService {
     return password ? Base64.encode(password) : password;
   }
 
+  async setAvatar(userId: string, avatarUrl: string) {
+    await this.userModel.update(
+      { _id: userId },
+      { avatar: avatarUrl },
+    );
+  }
+
   async getUsers(): Promise<User[]> {
     return await this.userModel.find().exec();
   }
