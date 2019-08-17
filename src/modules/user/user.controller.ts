@@ -40,7 +40,7 @@ export class UserController {
 
   @Post('/login')
   async createToken(@Body() user: UserLogin): Promise<ITokenResult> {
-    const token = await this.userService.createToken(user.password);
+    const token = await this.userService.signIn(user.password);
     return token;
   }
 

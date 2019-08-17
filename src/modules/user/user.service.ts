@@ -56,7 +56,7 @@ export class UserService {
     return newUser;
   }
 
-  async createToken(password: string): Promise<ITokenResult> {
+  async signIn(password: string): Promise<ITokenResult> {
     const user = await this.userModel.findOne(null, 'password').exec();
     const extantuserPwd = user && user.password;
     const extantPassword =

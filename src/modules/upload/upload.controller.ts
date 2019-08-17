@@ -73,8 +73,7 @@ export class UploadController {
       }),
     }),
   )
-  async uploadAvatar(@UploadedFile() image, @Body() file) {
-    console.log(file);
+  async uploadAvatar(@UploadedFile() image) {
     await this.uploadService.uploadImage(image);
   }
 }
