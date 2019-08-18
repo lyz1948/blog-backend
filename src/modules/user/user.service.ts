@@ -26,6 +26,10 @@ export class UserService {
     return password ? Base64.encode(password) : password;
   }
 
+  private decodeBase64(password) {
+    return password ? Base64.decode(password) : password;
+  }
+
   async setAvatar(userId: string, avatarUrl: string) {
     await this.userModel.update(
       { _id: userId },
@@ -61,9 +65,8 @@ export class UserService {
     const extantuserPwd = user && user.password;
     const extantPassword =
       extantuserPwd || this.makeMD5(CONFIG.USER.defaultPwd);
-    const submittedPassword = this.makeMD5(password);
+    const submittedPassword = this.makeMD5(this.decodeBase64(password));
 
-    console.log('数据库密码', extantPassword, '用户密码', submittedPassword);
     // 对比密码是否相同
     if (extantPassword === submittedPassword) {
       const userToken = this.jwtService.sign({
