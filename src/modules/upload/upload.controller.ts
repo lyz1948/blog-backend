@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UploadedFiles,
+  Req,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
@@ -16,6 +17,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { PaginateResult } from 'mongoose';
+import { readFileSync } from 'fs';
 
 const pngFileFilter = (req, file, callback) => {
   const ext = extname(file.originalname);
@@ -49,7 +51,6 @@ export class UploadController {
   @Get('/article/:fileId')
   getArticleImage(@Param('fileId') fileId, @Res() res) {
     res.sendFile(fileId, { root: 'uploads/article' });
-    // return this.uploadService.getImage(fileId);
   }
 
   @Get('/article')
@@ -73,7 +74,9 @@ export class UploadController {
       }),
     }),
   )
-  async uploadAvatar(@UploadedFile() image) {
-    await this.uploadService.uploadImage(image);
+  async uploadAvatar(@UploadedFile() image, @Req() req) {
+    const { path, mimetype: contentType } = image;
+    const data = readFileSync(path);
+    await this.uploadService.uploadImage({ data, contentType });
   }
 }

@@ -3,6 +3,8 @@ import { InjectModel } from 'nestjs-typegoose';
 import { PaginateResult } from 'mongoose';
 import { Upload } from './upload.model';
 import { TMongooseModel } from '../../common/interfaces/monoose.interface';
+import { readFileSync } from 'fs';
+
 @Injectable()
 export class UploadService {
   constructor(
@@ -19,11 +21,14 @@ export class UploadService {
     return image;
   }
 
-  async uploadImage(imageObj: Upload): Promise<Upload> {
-    const { size, mimetype, destination, filename, path } = imageObj;
-    const imgObj = { size, mimetype, destination, filename, path };
-    console.log('size ', size / 1024 / 1024, 'mb');
-    console.log('imgObj ', imgObj);
-    return await new this.uploadModel(imgObj).save();
+  async uploadImage(image: any): Promise<Upload> {
+    const imageObj = new this.uploadModel();
+    console.log(imageObj);
+    const { data, contentType } = image;
+    imageObj.data = data;
+    imageObj.contentType = contentType;
+    const res = await imageObj.save();
+    return res;
+    // return await new this.uploadModel().save();
   }
 }

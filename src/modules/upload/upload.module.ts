@@ -7,8 +7,8 @@ import { Upload } from './upload.model';
   imports: [
     TypegooseModule.forFeature([Upload]),
   ],
-  controllers: [UploadController],
   providers: [UploadService],
+  controllers: [UploadController],
   exports: [UploadService],
 })
 export class UploadModule {}

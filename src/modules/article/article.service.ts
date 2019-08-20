@@ -21,7 +21,7 @@ export class ArticleService {
     return article;
   }
 
-  async addArticle(newArticle: Article): Promise<Article> {
+  async createArticle(newArticle: Article): Promise<Article> {
     newArticle = Object.assign(
       { meta: { likes: 0, views: 0, comments: 0 } },
       newArticle,

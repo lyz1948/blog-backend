@@ -41,7 +41,7 @@ export class ArticleController {
   @UseGuards(JwtAuthGuard)
   @HttpProcessor.handle('添加文章')
   async addArticle(@Res() res, @Body() newArticle: Article): Promise<Article> {
-    const article = await this.articleService.addArticle(newArticle);
+    const article = await this.articleService.createArticle(newArticle);
     if (!article) {
       throw new NotFoundException('Article not found!');
     }

@@ -1,4 +1,5 @@
-import { plugin, pre, Typegoose } from 'typegoose';
+import { Types } from 'mongoose';
+import { plugin, prop, pre, Typegoose } from 'typegoose';
 import { IsString, IsNotEmpty, IsInt, Max } from 'class-validator';
 import {
   mongoosePaginate,
@@ -17,25 +18,31 @@ import {
   incrementBy: 1,
 })
 export class Upload extends Typegoose {
-  @IsNotEmpty()
-  @IsString({ message: '类型？' })
-  mimetype: string;
 
-  @IsNotEmpty()
-  @IsString({ message: '存放目录？' })
-  destination: string;
+  @IsNotEmpty({ message: '文件类型?' })
+  data: Buffer;
 
-  @IsNotEmpty()
-  @IsString({ message: '文件名？' })
-  filename: string;
+  // @IsNotEmpty({ message: '存放目录?' })
+  // @IsString({ message: '字符串?' })
+  // destination: string;
 
-  @IsNotEmpty()
-  @IsString({ message: '路径？' })
-  path: string;
+  // @IsNotEmpty({ message: '文件名称?' })
+  // @IsString({ message: '字符串?' })
+  // name: string;
 
-  @IsInt()
-  @Max(8192)
-  size: number;
+  @IsNotEmpty({ message: '图片类型？' })
+  @IsString({ message: '字符串' })
+  contentType: string;
+
+  // @IsInt({ message: '数字类型?' })
+  // @Max(8192)
+  // size: number;
+
+  @prop({ default: Date.now })
+  create_at?: Date;
+
+  @prop({ default: Date.now })
+  update_at?: Date;
 }
 
 const UploadModelConfig = {
