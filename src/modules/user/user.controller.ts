@@ -28,9 +28,14 @@ export class UserController {
     return this.userService.getAdminInfo();
   }
 
-  @Get('/users')
+  @Get()
   async getUsers(): Promise<User[]> {
     return await this.userService.getUsers();
+  }
+
+  @Get('/:id')
+  async getUser(@Param('id') id): Promise<User[]> {
+    return await this.userService.getUser(id);
   }
 
   @Post('/signup')

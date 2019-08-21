@@ -10,13 +10,20 @@ import {
   Delete,
   Put,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ArticleService } from './article.service';
 import { Article } from './article.model';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { PaginateResult } from 'mongoose';
 import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { HumanizedAuthorGuard } from '../../common/guards/humanizedAuth.guard';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { readFileSync } from 'fs';
 
 @Controller('article')
 export class ArticleController {
@@ -42,10 +49,7 @@ export class ArticleController {
   @HttpProcessor.handle('添加文章')
   async addArticle(@Res() res, @Body() newArticle: Article): Promise<Article> {
     const article = await this.articleService.createArticle(newArticle);
-    if (!article) {
-      throw new NotFoundException('Article not found!');
-    }
-    return res.status(HttpStatus.OK).json(article);
+    return article;
   }
 
   @Put()
@@ -55,13 +59,7 @@ export class ArticleController {
     @Body() newArticle: Article,
   ) {
     const article = await this.articleService.updateArticle(id, newArticle);
-    if (!article) {
-      throw new NotFoundException('Article does not exsit!');
-    }
-    return res.status(HttpStatus.OK).json({
-      message: 'Article has been successfully updated!',
-      article,
-    });
+    return article;
   }
 
   @Delete('/:id')

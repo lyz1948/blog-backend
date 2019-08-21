@@ -74,9 +74,8 @@ export class UploadController {
       }),
     }),
   )
-  async uploadAvatar(@UploadedFile() image, @Req() req) {
-    const { path, mimetype: contentType } = image;
-    const data = readFileSync(path);
-    await this.uploadService.uploadImage({ data, contentType });
+  async uploadAvatar(@UploadedFile() image) {
+    const res = await this.uploadService.uploadImage(image);
+    return res.path;
   }
 }

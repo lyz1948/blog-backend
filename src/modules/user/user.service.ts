@@ -41,6 +41,10 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
+  async getUser(id: string): Promise<User[]> {
+    return await this.userModel.find({ _id: id }).exec();
+  }
+
   async getAdminInfo(): Promise<User> {
     const adminInfo = await this.userModel
       .findOne(null, '-_id name slogan avatar')

@@ -22,13 +22,7 @@ export class UploadService {
   }
 
   async uploadImage(image: any): Promise<Upload> {
-    const imageObj = new this.uploadModel();
-    console.log(imageObj);
-    const { data, contentType } = image;
-    imageObj.data = data;
-    imageObj.contentType = contentType;
-    const res = await imageObj.save();
-    return res;
-    // return await new this.uploadModel().save();
+    const imageObj = await new this.uploadModel(image).save();
+    return imageObj;
   }
 }

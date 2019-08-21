@@ -1,10 +1,11 @@
 import { Types } from 'mongoose';
-import { plugin, prop, pre, Typegoose } from 'typegoose';
-import { IsString, IsNotEmpty, IsInt, Max } from 'class-validator';
+import { Typegoose, pre, plugin, prop, arrayProp } from 'typegoose';
 import {
   mongoosePaginate,
   mongooseAutoIncrement,
 } from '../../common/transforms/mongoose.transform';
+import { Extend } from '../../common/models/extend.model';
+import { IsNotEmpty, IsString, IsArray, ArrayUnique, IsInt, Max } from 'class-validator';
 
 @pre<Upload>('findOneAndUpdate', function(next) {
   this.findOneAndUpdate({}, { update_at: Date.now() });
@@ -17,32 +18,33 @@ import {
   startAt: 1,
   incrementBy: 1,
 })
+
 export class Upload extends Typegoose {
+  @IsNotEmpty({ message: '标签名称不能少啊！' })
+  @IsString({ message: '标签名称不是字符串！' })
+  @prop({ required: true, validate: /\S+/ })
+  filename: string;
 
-  @IsNotEmpty({ message: '文件类型?' })
-  data: Buffer;
+  @IsNotEmpty({ message: '标签别名不能少啊！' })
+  @IsString({ message: '标签别名不是字符串！' })
+  @prop({ required: true, validate: /\S+/ })
+  path: string;
 
-  // @IsNotEmpty({ message: '存放目录?' })
-  // @IsString({ message: '字符串?' })
-  // destination: string;
-
-  // @IsNotEmpty({ message: '文件名称?' })
-  // @IsString({ message: '字符串?' })
-  // name: string;
-
-  @IsNotEmpty({ message: '图片类型？' })
-  @IsString({ message: '字符串' })
-  contentType: string;
-
-  // @IsInt({ message: '数字类型?' })
-  // @Max(8192)
-  // size: number;
+  @IsInt()
+  @Max(2097152)
+  @prop()
+  size?: number;
 
   @prop({ default: Date.now })
   create_at?: Date;
 
   @prop({ default: Date.now })
   update_at?: Date;
+
+  @IsArray()
+  @ArrayUnique()
+  @arrayProp({ items: Extend })
+  extends?: Extend;
 }
 
 const UploadModelConfig = {

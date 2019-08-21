@@ -24,6 +24,12 @@ export const INFO = {
   version: '1.0.0',
 };
 
+export const QINIU = {
+  bucket: 'ykpine',
+  ak: 'YV3OuTyQEJlyHxJxT_IP9wUSQqn4kCVHW0JTv8d2',
+  sk: 'hdddzEji_2UDWTlj7gd5Q6BNItme5lsxoC32zwCt',
+};
+
 export const USER = {
   user: 'root',
   data: { user: 'root' },

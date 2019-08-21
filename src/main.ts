@@ -23,7 +23,7 @@ async function bootstrap() {
     new LoggingInterceptor(),
     new TransformInterceptor(new Reflector()),
   );
-  app.useStaticAssets(join(__dirname, '..', 'uploads'));
+  app.useStaticAssets(join(__dirname, '..'));
   await app.listen(CONFIG.APP.port);
 }
 bootstrap().then(() => {
