@@ -21,8 +21,8 @@ export class UploadService {
     return image;
   }
 
-  async uploadImage(image: any): Promise<Upload> {
+  async uploadImage(image: Upload): Promise<any> {
     const imageObj = await new this.uploadModel(image).save();
-    return imageObj;
+    return imageObj.path;
   }
 }

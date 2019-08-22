@@ -8,7 +8,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UploadedFiles,
-  Req,
+  HttpCode,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
@@ -17,7 +17,6 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { PaginateResult } from 'mongoose';
-import { readFileSync } from 'fs';
 
 const pngFileFilter = (req, file, callback) => {
   const ext = extname(file.originalname);
@@ -44,7 +43,6 @@ export class UploadController {
     }),
   )
   logFiles(@UploadedFiles() files, @Body() fileDto) {
-    console.log(files);
     return 'Done';
   }
 
@@ -58,8 +56,9 @@ export class UploadController {
     return this.uploadService.getImages(querys, options);
   }
 
+  @HttpCode(200)
   @Post('/article')
-  @HttpProcessor.handle('上传文章缩略图')
+  @HttpProcessor.handle({ message: '上传文章缩略图', usePaginate: false })
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -76,6 +75,6 @@ export class UploadController {
   )
   async uploadAvatar(@UploadedFile() image) {
     const res = await this.uploadService.uploadImage(image);
-    return res.path;
+    return res;
   }
 }
