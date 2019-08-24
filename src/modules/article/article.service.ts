@@ -49,9 +49,9 @@ export class ArticleService {
   }
 
   async createArticle(newArticle: Article): Promise<Article> {
-    const thumburl = await uploadToQiniu(newArticle.thumb, nanoid() + '.png');
+    // const thumburl = await uploadToQiniu(newArticle.thumb, nanoid() + '.png');
     newArticle = Object.assign(
-      { meta: { likes: 0, views: 0, comments: 0 }, thumb: thumburl },
+      { meta: { likes: 0, views: 0, comments: 0 } },
       newArticle,
     );
     const article = await new this.articleModel(newArticle).save();

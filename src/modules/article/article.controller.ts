@@ -10,6 +10,7 @@ import {
   Delete,
   Put,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ArticleService } from './article.service';
@@ -39,17 +40,12 @@ export class ArticleController {
   }
 
   @Post()
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard)
-  @HttpProcessor.handle('添加文章')
-  async addArticle(@Res() res, @Body() newArticle: Article): Promise<Article> {
+  @HttpProcessor.handle({ message: '添加文章', usePaginate: false })
+  async addArticle(@Body() newArticle: Article): Promise<Article> {
     const article = await this.articleService.createArticle(newArticle);
-    if (!article) {
-      throw new NotFoundException('Article does not exist!');
-    }
-    return res.status(HttpStatus.OK).json({
-      message: 'Article has been deleted!',
-      article,
-    });
+    return article;
   }
 
   @Put()

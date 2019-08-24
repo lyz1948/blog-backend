@@ -9,7 +9,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(error, authInfo, errInfo) {
-    console.log('authinfo', authInfo);
     if (authInfo && !error && !errInfo) {
       return authInfo;
     } else {
