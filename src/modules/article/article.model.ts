@@ -14,9 +14,9 @@ import {
   mongooseAutoIncrement,
 } from '../../common/transforms/mongoose.transform';
 import {
-  StateOrigin,
-  StatePublic,
-  StatePublish,
+  EStateOrigin,
+  EStatePublic,
+  EStatePublish,
 } from '../../common/interfaces/state.interface';
 import { Extend } from '../../common/models/extend.model';
 import { Category } from '../../modules/category/category.model';
@@ -94,23 +94,23 @@ export class Article extends Typegoose {
 
   // 文章发布状态
   @IsDefined()
-  @IsIn([StatePublish.Draft, StatePublish.Published, StatePublish.Recycle])
+  @IsIn([EStatePublish.Draft, EStatePublish.Published, EStatePublish.Recycle])
   @IsInt({ message: '状态不匹配！' })
-  @prop({ default: StatePublish.Published })
-  state: StatePublish;
+  @prop({ default: EStatePublish.Published })
+  state: EStatePublish;
 
   // 文章公开方式
   @IsDefined()
-  @IsIn([StatePublic.Password, StatePublic.Public, StatePublic.Secret])
+  @IsIn([EStatePublic.Password, EStatePublic.Public, EStatePublic.Secret])
   @IsInt({ message: '状态不匹配！' })
-  @prop({ default: StatePublic.Public })
-  public: StatePublic;
+  @prop({ default: EStatePublic.Public })
+  public: EStatePublic;
 
   @IsDefined()
-  @IsIn([StateOrigin.Original, StateOrigin.Reprint, StateOrigin.Hybrid])
+  @IsIn([EStateOrigin.Original, EStateOrigin.Reprint, EStateOrigin.Hybrid])
   @IsInt({ message: '状态不匹配！' })
-  @prop({ default: StateOrigin.Original })
-  origin: StateOrigin;
+  @prop({ default: EStateOrigin.Original })
+  origin: EStateOrigin;
 
   // 其他元信息
   @prop()

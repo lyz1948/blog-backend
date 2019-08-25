@@ -50,22 +50,22 @@ export class Tag extends Typegoose {
   count?: number;
 }
 
-const TagModelConfig = {
-  typegooseClass: Tag,
-  schemaOptions: {
-    toObject: { getters: true },
-    toJSON: {
-      virtuals: true,
-      versionKey: false,
-      transform: (doc, ret, options) => {
-        delete ret._id;
-        delete ret.__v;
-        delete ret.id;
-        return ret;
-      },
-    },
-    timestamps: true,
-  },
-};
+// const TagModelConfig = {
+//   typegooseClass: Tag,
+//   schemaOptions: {
+//     toObject: { getters: true },
+//     toJSON: {
+//       virtuals: true,
+//       versionKey: false,
+//       transform: (doc, ret, options) => {
+//         delete ret._id;
+//         delete ret.__v;
+//         delete ret.id;
+//         return ret;
+//       },
+//     },
+//     timestamps: true,
+//   },
+// };
 
-export default TagModelConfig;
+// export default TagModelConfig;

@@ -8,7 +8,7 @@ export class CategoryService {
   constructor(@InjectModel(Category) private readonly categoryModule: TMongooseModel<Category>) {}
 
   async getCategories(): Promise<Category[]> {
-    return await this.categoryModule.find().exec();
+    return await this.categoryModule.find().sort({ update_at: -1 }).exec();
   }
 
   async createCategory(newCate: Category): Promise<Category> {

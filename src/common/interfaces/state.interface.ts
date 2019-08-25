@@ -1,26 +1,26 @@
 // 发布状态
-export enum StatePublish {
+export enum EStatePublish {
   Draft = 0, // 草稿
   Published = 1, // 已发布
   Recycle = -1, // 发布过已撤回
 }
 
 // 公开状态
-export enum StatePublic {
+export enum EStatePublic {
   Password = 0, // 密码访问
   Public = 1, // 公开
   Secret = -1, // 隐藏
 }
 
 // 装载状态
-export enum StateOrigin {
+export enum EStateOrigin {
   Original = 0, // 原创
   Reprint = 1, // 装载
   Hybrid = 2, // 混合
 }
 
 // 评论状态
-export enum StateComment {
+export enum EStateComment {
   Auditing = 0, // 待审核
   Published = 1, // 通过正常
   Deleted = -1, // 已删除
@@ -28,17 +28,17 @@ export enum StateComment {
 }
 
 // 评论宿主页面的 POST_ID 类型
-export enum StateCommentPostType {
+export enum EStateCommentPostType {
   Guestbook = 0, // 留言板
 }
 
 // 评论本身的类型
-export enum StateCommentSelfType {
+export enum EStateCommentSelfType {
   Self = 0, // 自身一级评论
 }
 
 // 排序状态
-export enum StateSortType {
+export enum EStateSortType {
   Asc = 1, // 升序
   Desc = -1, // 降序
   Hot = 2, // 最热

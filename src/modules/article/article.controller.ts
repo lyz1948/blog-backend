@@ -12,13 +12,13 @@ import {
   UseGuards,
   HttpCode,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { ArticleService } from './article.service';
 import { Article } from './article.model';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { PaginateResult } from 'mongoose';
 import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { HumanizedAuthorGuard } from '../../common/guards/humanizedAuth.guard';
+import { QueryDecorator, EQueryOptionField as QueryParams } from '../../common/decorators/query.decorator';
 
 @Controller('article')
 export class ArticleController {
@@ -28,7 +28,7 @@ export class ArticleController {
   // @UseGuards(HumanizedAuthorGuard)
   @HttpProcessor.paginate()
   @HttpProcessor.handle('获取文章')
-  getArticles(querys: string, options: any, origin, isAuthorized): Promise<PaginateResult<Article>> {
+  getArticles(querys: string, options: any): Promise<PaginateResult<Article>> {
     return this.articleService.getArticles(querys, options);
   }
 
@@ -59,14 +59,9 @@ export class ArticleController {
   }
 
   @Delete('/:id')
-  async deleteArticle(@Res() res, @Param('id') id) {
-    const article = await this.articleService.deleteArticle(id);
-    if (!article) {
-      throw new NotFoundException('Article does not exist!');
-    }
-    return res.status(HttpStatus.OK).json({
-      message: 'Article has been deleted!',
-      article,
-    });
+  @HttpProcessor.handle('删除文章')
+  async deleteArticle(@Param('id') id) {
+    await this.articleService.deleteArticle(id);
+    return id;
   }
 }

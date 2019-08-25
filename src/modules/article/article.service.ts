@@ -37,14 +37,13 @@ export class ArticleService {
     private readonly articleModel: TMongooseModel<Article>,
   ) {}
 
-  async getArticles(query, options): Promise<PaginateResult<Article>> {
-    const articles = await this.articleModel.paginate(query, options);
+  async getArticles(querys, options): Promise<PaginateResult<Article>> {
+    const articles = await this.articleModel.paginate(querys, options);
     return articles;
   }
 
   async getArticle(articleId): Promise<Article> {
     const article = await this.articleModel.findById(articleId).exec();
-    console.log(article);
     return article;
   }
 

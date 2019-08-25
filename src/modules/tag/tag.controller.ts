@@ -1,16 +1,23 @@
-import { Controller, Get, Post, Res, Body, Put, Delete, Param, HttpStatus, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode } from '@nestjs/common';
 import { TagService } from './tag.service';
 import { Tag } from './tag.model';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
+import { QueryDecorator } from '../../common/decorators/query.decorator';
+import { PaginateResult } from 'mongoose';
 
 @Controller('tag')
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @Get()
-  async getTags(): Promise<Tag[]> {
-    console.log('get tags');
-    return await this.tagService.getTags();
+  @HttpProcessor.paginate()
+  @HttpProcessor.handle('获取文章标签')
+  async getTags(
+    @QueryDecorator() { query, options, origin, isAuthenticated },
+  ): Promise<PaginateResult<Tag>> {
+    console.log('=====');
+    console.log(query, options);
+    return await this.tagService.getTags(query, options);
   }
 
   @Get('/:id')
@@ -19,19 +26,17 @@ export class TagController {
   }
 
   @Post()
+  @HttpCode(200)
   @HttpProcessor.handle({ message: '添加标签', usePaginate: false })
-  async createTag(@Res() res, @Body() newTag: Tag): Promise<Tag> {
-    console.log('newTag', newTag);
+  async createTag(@Body() newTag: Tag): Promise<Tag> {
     const tag = await this.tagService.createTag(newTag);
-    if (!tag) {
-      throw new NotFoundException('Article not found!');
-    }
-    return res.status(HttpStatus.OK).json(tag);
+    return tag;
   }
 
   @Put('/:id')
-  async updateTag(@Param('id') id, newTag: Tag): Promise<Tag> {
-    return await this.tagService.updateTag(id, newTag);
+  async updateTag(@Param('id') id, @Body() newTag: Tag): Promise<Tag> {
+    const tag = await this.tagService.updateTag(id, newTag);
+    return tag;
   }
 
   @Delete('/:id')

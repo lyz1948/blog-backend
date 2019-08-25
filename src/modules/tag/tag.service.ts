@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Tag } from './tag.model';
 import { TMongooseModel } from '../../common/interfaces/monoose.interface';
+import { PaginateResult } from 'mongoose';
 
 @Injectable()
 export class TagService {
   constructor(@InjectModel(Tag) private readonly tagModule: TMongooseModel<Tag>) {}
 
-  async getTags(): Promise<Tag[]> {
-    return await this.tagModule.find().exec();
+  async getTags(query, options): Promise<PaginateResult<Tag>> {
+    return await this.tagModule.paginate(query, options);
   }
 
   async getTag(id): Promise<Tag> {
@@ -16,13 +17,12 @@ export class TagService {
   }
 
   async createTag(newTag: Tag): Promise<Tag> {
-    console.log(typeof newTag);
-    console.log(newTag);
     return await new this.tagModule(newTag).save();
   }
 
   async updateTag(tagId, tag: Tag): Promise<Tag> {
-    return await this.tagModule.findByIdAndUpdate(tagId, tag);
+    await this.tagModule.findByIdAndUpdate(tagId, tag);
+    return await this.getTag(tagId);
   }
 
   async deleteTag(tagId): Promise<any> {

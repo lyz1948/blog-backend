@@ -1,7 +1,7 @@
 import { environment, isDevMode } from './app.environment';
 
 export const APP = {
-  limit: 100,
+  limit: 10,
   port: 5381,
   env: environment,
   dev: isDevMode,

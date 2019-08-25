@@ -16,6 +16,7 @@ async function bootstrap() {
   app.use(BodyParser.urlencoded({ extended: true }));
   app.use(BodyParser.json());
   app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
     disableErrorMessages: (CONFIG.APP.dev ? true : false),
   }));
   app.useGlobalFilters(new HttpExceptionFilter());
