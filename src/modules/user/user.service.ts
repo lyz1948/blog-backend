@@ -66,6 +66,8 @@ export class UserService {
 
   async signIn(password: string): Promise<ITokenResult> {
     const user = await this.userModel.findOne(null, 'password').exec();
+    const userInfo = await this.userModel.findOne({ _id: user._id });
+    const { name, avatar, slogan } = userInfo;
     const extantuserPwd = user && user.password;
     const extantPassword =
       extantuserPwd || this.makeMD5(CONFIG.USER.defaultPwd);
@@ -79,8 +81,11 @@ export class UserService {
       return Promise.resolve({
         access_token: userToken,
         expires_in: CONFIG.USER.expiresIn as number,
+        name,
+        avatar,
+        slogan,
       });
     }
-    return Promise.reject('用户名或密码不正确');
+    return Promise.reject({ message: '用户名或密码不正确'});
   }
 }

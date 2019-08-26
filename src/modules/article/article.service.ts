@@ -38,6 +38,8 @@ export class ArticleService {
   ) {}
 
   async getArticles(querys, options): Promise<PaginateResult<Article>> {
+    options.populate = ['category', 'tag'];
+    options.select = '-password -content';
     const articles = await this.articleModel.paginate(querys, options);
     return articles;
   }

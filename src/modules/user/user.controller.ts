@@ -7,6 +7,7 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
+  HttpCode,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
@@ -39,11 +40,13 @@ export class UserController {
   }
 
   @Post('/signup')
+  @HttpCode(200)
   async signUp(@Body() user: User): Promise<User> {
     return await this.userService.signUp(user);
   }
 
   @Post('/login')
+  @HttpCode(200)
   async createToken(@Body() user: UserLogin): Promise<ITokenResult> {
     const token = await this.userService.signIn(user.password);
     return token;

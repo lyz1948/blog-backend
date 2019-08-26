@@ -18,7 +18,10 @@ import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { PaginateResult } from 'mongoose';
 import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { HumanizedAuthorGuard } from '../../common/guards/humanizedAuth.guard';
-import { QueryDecorator, EQueryOptionField as QueryParams } from '../../common/decorators/query.decorator';
+import {
+  QueryDecorator,
+  EQueryOptionField as QueryParams,
+} from '../../common/decorators/query.decorator';
 
 @Controller('article')
 export class ArticleController {
@@ -28,14 +31,31 @@ export class ArticleController {
   // @UseGuards(HumanizedAuthorGuard)
   @HttpProcessor.paginate()
   @HttpProcessor.handle('获取文章')
-  getArticles(querys: string, options: any): Promise<PaginateResult<Article>> {
+  getArticles(@QueryDecorator([
+    QueryParams.Date,
+    QueryParams.State,
+    QueryParams.Public,
+    QueryParams.Origin,
+    'cache',
+    'tag',
+    'category',
+    'tag_slug',
+    'category_slug',
+  ])
+  {
+    querys,
+    options,
+  }): Promise<PaginateResult<Article>> {
+    console.log('querys ====');
+    console.log(querys);
+    console.log('options ====');
+    options.limit = 20;
+    console.log(options);
     return this.articleService.getArticles(querys, options);
   }
 
   @Get('/:id')
-  getArticle(
-    @Param('id') id,
-  ): Promise<Article> {
+  getArticle(@Param('id') id): Promise<Article> {
     return this.articleService.getArticle(id);
   }
 
@@ -49,11 +69,7 @@ export class ArticleController {
   }
 
   @Put()
-  async editArticle(
-    @Res() res,
-    @Param('id') id,
-    @Body() newArticle: Article,
-  ) {
+  async editArticle(@Res() res, @Param('id') id, @Body() newArticle: Article) {
     const article = await this.articleService.updateArticle(id, newArticle);
     return article;
   }
