@@ -12,7 +12,8 @@ import * as CONFIG from '../../app.config';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User) private readonly userModel: TMongooseModel<User>,
+    @InjectModel(User)
+    private readonly userModel: TMongooseModel<User>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -31,10 +32,7 @@ export class UserService {
   }
 
   async setAvatar(userId: string, avatarUrl: string) {
-    await this.userModel.update(
-      { _id: userId },
-      { avatar: avatarUrl },
-    );
+    await this.userModel.update({ _id: userId }, { avatar: avatarUrl });
   }
 
   async getUsers(): Promise<User[]> {
@@ -64,10 +62,17 @@ export class UserService {
     return newUser;
   }
 
+  async updateUserInfo(userInfo: User): Promise<User> {
+    const { _id } = userInfo;
+    const user = await this.userModel.findOneAndUpdate(_id, userInfo).exec();
+    console.log(user);
+    return user;
+  }
+
   async signIn(password: string): Promise<ITokenResult> {
     const user = await this.userModel.findOne(null, 'password').exec();
     const userInfo = await this.userModel.findOne({ _id: user._id });
-    const { name, avatar, slogan } = userInfo;
+    const { name, avatar, slogan, _id } = userInfo;
     const extantuserPwd = user && user.password;
     const extantPassword =
       extantuserPwd || this.makeMD5(CONFIG.USER.defaultPwd);
@@ -81,11 +86,12 @@ export class UserService {
       return Promise.resolve({
         access_token: userToken,
         expires_in: CONFIG.USER.expiresIn as number,
+        _id,
         name,
         avatar,
         slogan,
       });
     }
-    return Promise.reject({ message: '用户名或密码不正确'});
+    return Promise.reject({ message: '用户名或密码不正确' });
   }
 }

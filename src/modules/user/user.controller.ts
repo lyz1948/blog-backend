@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   UploadedFile,
   HttpCode,
+  Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
@@ -19,7 +20,7 @@ import { extname } from 'path';
 
 @Controller('user')
 export class UserController {
-  SERVER_URL: string = 'http://localhost:5381/';
+  // SERVER_URL: string = 'http://localhost:5381/';
 
   constructor(private readonly userService: UserService) {}
 
@@ -47,9 +48,15 @@ export class UserController {
 
   @Post('/login')
   @HttpCode(200)
-  async createToken(@Body() user: UserLogin): Promise<ITokenResult> {
-    const token = await this.userService.signIn(user.password);
-    return token;
+  async signIn(@Body() user: UserLogin): Promise<ITokenResult> {
+    return await this.userService.signIn(user.password);
+  }
+
+  @Put('/profile')
+  @HttpCode(200)
+  async updateUserInfo(@Body() info: User): Promise<User> {
+    const userInfo = await this.userService.updateUserInfo(info);
+    return userInfo;
   }
 
   @Get('avatar/:fileId')
@@ -73,6 +80,6 @@ export class UserController {
     }),
   )
   uploadAvatar(@Param('userid') userId, @UploadedFile() avatar) {
-    this.userService.setAvatar(userId, `${this.SERVER_URL}${avatar.path}`);
+    this.userService.setAvatar(userId, `${avatar.path}`);
   }
 }

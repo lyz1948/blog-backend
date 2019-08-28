@@ -13,9 +13,6 @@ import * as CONFIG from '../../app.config';
 @Module({
   imports: [
     TypegooseModule.forFeature([User]),
-    // MulterModule.register({
-    //   dest: './uploads',
-    // }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secretOrPrivateKey: CONFIG.USER.jwtTokenSecret as jwt.Secret,

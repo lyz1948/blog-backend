@@ -33,6 +33,7 @@ export class User extends Typegoose {
   @prop({ default: 'https://avatars1.githubusercontent.com/u/15190827?s=460&v=4' })
   avatar: string;
 
+  _id?: string;
   password?: string;
   new_password?: string;
   rel_new_password?: string;
@@ -42,7 +43,7 @@ export class UserLogin extends Typegoose {
   @IsDefined()
   @IsNotEmpty({ message: '用户名？' })
   @IsString({ message: '字符串？' })
-  username: string;
+  name: string;
 
   @IsDefined()
   @IsNotEmpty({ message: '密码？' })
