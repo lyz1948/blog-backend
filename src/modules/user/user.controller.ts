@@ -9,6 +9,8 @@ import {
   UploadedFile,
   HttpCode,
   Put,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
@@ -36,7 +38,7 @@ export class UserController {
   }
 
   @Get('/:id')
-  async getUser(@Param('id') id): Promise<User[]> {
+  async getUser(@Param('id') id): Promise<User> {
     return await this.userService.getUser(id);
   }
 
@@ -49,12 +51,18 @@ export class UserController {
   @Post('/login')
   @HttpCode(200)
   async signIn(@Body() user: UserLogin): Promise<ITokenResult> {
-    return await this.userService.signIn(user.password);
+    const res = await this.userService.signIn(user.password);
+    if (!res) {
+      throw new HttpException('用户名或密码错误', HttpStatus.BAD_REQUEST);
+    } else {
+      return res;
+    }
   }
 
   @Put('/profile')
   @HttpCode(200)
   async updateUserInfo(@Body() info: User): Promise<User> {
+    console.log(info);
     const userInfo = await this.userService.updateUserInfo(info);
     return userInfo;
   }

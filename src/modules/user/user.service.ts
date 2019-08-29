@@ -39,8 +39,8 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
-  async getUser(id: string): Promise<User[]> {
-    return await this.userModel.find({ _id: id }).exec();
+  async getUser(id: string): Promise<User> {
+    return await this.userModel.findOne({ _id: id }).exec();
   }
 
   async getAdminInfo(): Promise<User> {
@@ -64,15 +64,16 @@ export class UserService {
 
   async updateUserInfo(userInfo: User): Promise<User> {
     const { _id } = userInfo;
-    const user = await this.userModel.findOneAndUpdate(_id, userInfo).exec();
-    console.log(user);
+    console.log('update', userInfo);
+    const user = await this.userModel.findOneAndUpdate(_id, userInfo, { new: true });
     return user;
   }
 
   async signIn(password: string): Promise<ITokenResult> {
     const user = await this.userModel.findOne(null, 'password').exec();
-    const userInfo = await this.userModel.findOne({ _id: user._id });
-    const { name, avatar, slogan, _id } = userInfo;
+    const userInfo = await this.getUser(user._id);
+    const { name, avatar, slogan, _id } = userInfo as User;
+
     const extantuserPwd = user && user.password;
     const extantPassword =
       extantuserPwd || this.makeMD5(CONFIG.USER.defaultPwd);

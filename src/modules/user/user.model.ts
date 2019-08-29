@@ -35,8 +35,8 @@ export class User extends Typegoose {
 
   _id?: string;
   password?: string;
-  new_password?: string;
-  rel_new_password?: string;
+  password_new?: string;
+  password_new_rep?: string;
 }
 
 export class UserLogin extends Typegoose {
