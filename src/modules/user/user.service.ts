@@ -1,14 +1,14 @@
-import { JwtService } from '@nestjs/jwt';
-import { Injectable } from '@nestjs/common';
-import * as lodash from 'lodash';
-import { Base64 } from 'js-base64';
-import { createHash } from 'crypto';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
+import { JwtService } from '@nestjs/jwt';
+import { createHash } from 'crypto';
+import { Base64 } from 'js-base64';
 import { User } from './user.model';
 import { ITokenResult } from './user.interface';
 import { TMongooseModel } from '../../common/interfaces/monoose.interface';
+import { HttpUnauthorizeError } from '../../common/errors/http.error';
+import * as lodash from 'lodash';
 import * as CONFIG from '../../app.config';
-
 @Injectable()
 export class UserService {
   constructor(
@@ -63,10 +63,16 @@ export class UserService {
   }
 
   async updateUserInfo(userInfo: User): Promise<User> {
-    const { _id } = userInfo;
-    console.log('update', userInfo);
-    const user = await this.userModel.findOneAndUpdate(_id, userInfo, { new: true });
-    return user;
+    const { _id, password } = userInfo;
+    const userOld = await this.userModel.findOne({ password }).exec();
+
+    if (userOld) {
+      userInfo.password = userInfo.password_new;
+      delete userInfo.password_new;
+
+      const userNew = await this.userModel.findOneAndUpdate(_id, userInfo, { new: true });
+      return userNew;
+    }
   }
 
   async signIn(password: string): Promise<ITokenResult> {

@@ -16,14 +16,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
 import { ITokenResult } from './user.interface';
 import { User, UserLogin } from './user.model';
-import { HttpProcessor } from '../../common/decorators/http.decorator';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { HttpProcessor } from '../../common/decorators/http.decorator';
+import { HttpUnauthorizeError } from '../../common/errors/http.error';
 
 @Controller('user')
 export class UserController {
-  // SERVER_URL: string = 'http://localhost:5381/';
-
   constructor(private readonly userService: UserService) {}
 
   @Get('/admin')
@@ -62,8 +61,10 @@ export class UserController {
   @Put('/profile')
   @HttpCode(200)
   async updateUserInfo(@Body() info: User): Promise<User> {
-    console.log(info);
     const userInfo = await this.userService.updateUserInfo(info);
+    if (!userInfo) {
+      throw new HttpUnauthorizeError('旧密码校验错误', HttpStatus.BAD_REQUEST);
+    }
     return userInfo;
   }
 
