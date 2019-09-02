@@ -47,20 +47,17 @@ export class UserController {
     return await this.userService.signUp(user);
   }
 
-  @Post('/login')
+  @Post('/signin')
   @HttpCode(200)
   async signIn(@Body() user: UserLogin): Promise<ITokenResult> {
-    const res = await this.userService.signIn(user.password);
-    if (!res) {
-      throw new HttpException('用户名或密码错误', HttpStatus.BAD_REQUEST);
-    } else {
-      return res;
-    }
+    const res = await this.userService.signIn(user);
+    return res;
   }
 
   @Put('/profile')
   @HttpCode(200)
   async updateUserInfo(@Body() info: User): Promise<User> {
+    console.log('info', info);
     const userInfo = await this.userService.updateUserInfo(info);
     if (!userInfo) {
       throw new HttpUnauthorizeError('旧密码校验错误', HttpStatus.BAD_REQUEST);

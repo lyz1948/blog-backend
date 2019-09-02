@@ -21,7 +21,7 @@ export class User extends Typegoose {
   @IsDefined()
   @IsString({ message: '用户名？' })
   @prop({ default: 'visit' })
-  name: string;
+  username: string;
 
   @IsDefined()
   @IsString({ message: '口头禅？' })
@@ -34,7 +34,9 @@ export class User extends Typegoose {
   avatar: string;
 
   _id?: string;
+  @IsDefined()
   password?: string;
+  @IsDefined()
   password_new?: string;
   password_new_rep?: string;
 }
@@ -43,7 +45,7 @@ export class UserLogin extends Typegoose {
   @IsDefined()
   @IsNotEmpty({ message: '用户名？' })
   @IsString({ message: '字符串？' })
-  name: string;
+  username: string;
 
   @IsDefined()
   @IsNotEmpty({ message: '密码？' })

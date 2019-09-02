@@ -3,32 +3,32 @@ import { InjectModel } from 'nestjs-typegoose';
 import { TMongooseModel } from '../../common/interfaces/monoose.interface';
 import { Article } from './article.model';
 import { PaginateResult } from 'mongoose';
-import * as CONFIG from '../../app.config';
 
-const qiniu = require('qiniu');
-const nanoid = require('nanoid');
+// import * as CONFIG from '../../app.config';
+// const qiniu = require('qiniu');
+// const nanoid = require('nanoid');
 
-const bucket = CONFIG.QINIU.bucket;
+// const bucket = CONFIG.QINIU.bucket;
 
-const mac = new qiniu.auth.digest.Mac(CONFIG.QINIU.ak, CONFIG.QINIU.sk);
-const cfg = new qiniu.conf.Config();
-const client = new qiniu.rs.BucketManager(mac, cfg);
+// const mac = new qiniu.auth.digest.Mac(CONFIG.QINIU.ak, CONFIG.QINIU.sk);
+// const cfg = new qiniu.conf.Config();
+// const client = new qiniu.rs.BucketManager(mac, cfg);
 
-const uploadToQiniu = async (url, key) => {
-  return new Promise((resolve, reject) => {
-    client.fetch(url, bucket, key, (err, res, info) => {
-      if (err) {
-        reject(err);
-      } else {
-        if (info.statusCode === 200) {
-          resolve({ key });
-        } else {
-          reject(info);
-        }
-      }
-    });
-  });
-};
+// const uploadToQiniu = async (url, key) => {
+//   return new Promise((resolve, reject) => {
+//     client.fetch(url, bucket, key, (err, res, info) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         if (info.statusCode === 200) {
+//           resolve({ key });
+//         } else {
+//           reject(info);
+//         }
+//       }
+//     });
+//   });
+// };
 
 @Injectable()
 export class ArticleService {
