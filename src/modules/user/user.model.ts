@@ -34,9 +34,7 @@ export class User extends Typegoose {
   avatar: string;
 
   _id?: string;
-  @IsDefined()
   password?: string;
-  @IsDefined()
   password_new?: string;
   password_new_rep?: string;
 }

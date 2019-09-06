@@ -31,32 +31,13 @@ export class ArticleController {
   // @UseGuards(HumanizedAuthorGuard)
   @HttpProcessor.paginate()
   @HttpProcessor.handle('获取文章')
-  getArticles(@QueryDecorator([
-    QueryParams.Date,
-    QueryParams.State,
-    QueryParams.Public,
-    QueryParams.Origin,
-    'cache',
-    'tag',
-    'category',
-    'tag_slug',
-    'category_slug',
-  ])
-  {
-    querys,
-    options,
-  }): Promise<PaginateResult<Article>> {
-    console.log('querys ====');
-    console.log(querys);
-    console.log('options ====');
-    options.limit = 20;
-    console.log(options);
-    return this.articleService.getArticles(querys, options);
+  getArticles(): Promise<PaginateResult<Article>> {
+    return this.articleService.findAll();
   }
 
   @Get('/:id')
   getArticle(@Param('id') id): Promise<Article> {
-    return this.articleService.getArticle(id);
+    return this.articleService.findOne(id);
   }
 
   @Post()

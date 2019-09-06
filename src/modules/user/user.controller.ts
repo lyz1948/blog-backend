@@ -25,26 +25,22 @@ import { HttpUnauthorizeError } from '../../common/errors/http.error';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/admin')
-  @HttpProcessor.handle('管理员登录')
-  getAdminInfo(): Promise<User> {
-    return this.userService.getAdminInfo();
-  }
-
   @Get()
   async getUsers(): Promise<User[]> {
-    return await this.userService.getUsers();
+    return await this.userService.findAll();
   }
 
-  @Get('/:id')
-  async getUser(@Param('id') id): Promise<User> {
-    return await this.userService.getUser(id);
+  @Get('/admin')
+  @HttpProcessor.handle('管理员登录')
+  async getUser(): Promise<User> {
+    return await this.userService.getUserInfo();
   }
 
   @Post('/signup')
-  @HttpCode(200)
-  async signUp(@Body() user: User): Promise<User> {
-    return await this.userService.signUp(user);
+  // @HttpCode(200)
+  signUp(@Body() user: User) {
+    console.log('controller', user);
+    return this.userService.signUp(user);
   }
 
   @Post('/signin')
@@ -57,8 +53,7 @@ export class UserController {
   @Put('/profile')
   @HttpCode(200)
   async updateUserInfo(@Body() info: User): Promise<User> {
-    console.log('info', info);
-    const userInfo = await this.userService.updateUserInfo(info);
+    const userInfo = await this.userService.update(info);
     if (!userInfo) {
       throw new HttpUnauthorizeError('旧密码校验错误', HttpStatus.BAD_REQUEST);
     }
