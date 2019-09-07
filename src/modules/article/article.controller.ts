@@ -44,14 +44,14 @@ export class ArticleController {
   @HttpCode(200)
   @UseGuards(JwtAuthGuard)
   @HttpProcessor.handle({ message: '添加文章', usePaginate: false })
-  async addArticle(@Body() newArticle: Article): Promise<Article> {
-    const article = await this.articleService.createArticle(newArticle);
+  async createArticle(@Body() newArticle: Article): Promise<Article> {
+    const article = await this.articleService.create(newArticle);
     return article;
   }
 
-  @Put()
-  async editArticle(@Res() res, @Param('id') id, @Body() newArticle: Article) {
-    const article = await this.articleService.updateArticle(id, newArticle);
+  @Put('/:id')
+  async updateArticle(@Param('id') id, @Body() newArticle: Article) {
+    const article = await this.articleService.update(id, newArticle);
     return article;
   }
 

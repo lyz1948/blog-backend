@@ -58,7 +58,7 @@ export class ArticleService {
     return article;
   }
 
-  async createArticle(newArticle: Article): Promise<Article> {
+  async create(newArticle: Article): Promise<Article> {
     // const thumburl = await uploadToQiniu(newArticle.thumb, nanoid() + '.png');
     newArticle = Object.assign(
       { meta: { likes: 0, views: 0, comments: 0 } },
@@ -68,7 +68,7 @@ export class ArticleService {
     return article;
   }
 
-  async updateArticle(articleId, newArticle: Article): Promise<Article> {
+  async update(articleId, newArticle: Article): Promise<Article> {
     const editedArticle = await this.articleModel.findByIdAndUpdate(
       articleId,
       newArticle,
