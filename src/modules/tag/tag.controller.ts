@@ -15,33 +15,31 @@ export class TagController {
   async getTags(
     @QueryDecorator() { query, options, origin, isAuthenticated },
   ): Promise<PaginateResult<Tag>> {
-    console.log('=====');
-    console.log(query, options);
-    return await this.tagService.getTags(query, options);
+    return await this.tagService.findAll(query, options);
   }
 
   @Get('/:id')
   async getTag(@Param('id') id): Promise<Tag> {
-    return await this.tagService.getTag(id);
+    return await this.tagService.findOne(id);
   }
 
   @Post()
   @HttpCode(200)
   @HttpProcessor.handle({ message: '添加标签', usePaginate: false })
   async createTag(@Body() newTag: Tag): Promise<Tag> {
-    const tag = await this.tagService.createTag(newTag);
+    const tag = await this.tagService.create(newTag);
     return tag;
   }
 
   @Put('/:id')
   async updateTag(@Param('id') id, @Body() newTag: Tag): Promise<Tag> {
-    const tag = await this.tagService.updateTag(id, newTag);
+    const tag = await this.tagService.update(id, newTag);
     return tag;
   }
 
   @Delete('/:id')
   @HttpProcessor.handle({ message: '删除标签', usePaginate: false })
   async deleteTag(@Param('id') id): Promise<any> {
-    return await this.tagService.deleteTag(id);
+    return await this.tagService.delete(id);
   }
 }

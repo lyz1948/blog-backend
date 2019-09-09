@@ -31,8 +31,10 @@ export class ArticleController {
   // @UseGuards(HumanizedAuthorGuard)
   @HttpProcessor.paginate()
   @HttpProcessor.handle('获取文章')
-  getArticles(): Promise<PaginateResult<Article>> {
-    return this.articleService.findAll();
+  getArticles(
+    @QueryDecorator() { query, options, origin, isAuthenticated },
+  ): Promise<PaginateResult<Article>> {
+    return this.articleService.getArticles(query, options);
   }
 
   @Get('/:id')
