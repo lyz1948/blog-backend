@@ -53,8 +53,8 @@ export class ArticleService {
     return await this.articleModel.paginate();
   }
 
-  async findOne(id: Article): Promise<Article> {
-    const article = await this.articleModel.findOne({id});
+  async findOne(_id: Article): Promise<Article> {
+    const article = await this.articleModel.findOne({_id});
     return article;
   }
 
