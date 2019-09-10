@@ -28,16 +28,20 @@ export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Get()
-  // @UseGuards(HumanizedAuthorGuard)
   @HttpProcessor.paginate()
-  @HttpProcessor.handle('获取文章')
-  getArticles(
-    @QueryDecorator() { query, options, origin, isAuthenticated },
-  ): Promise<PaginateResult<Article>> {
+  @HttpProcessor.handle('获取文章列表')
+  getArticles(@QueryDecorator()
+  {
+    query,
+    options,
+    origin,
+    isAuthenticated,
+  }): Promise<PaginateResult<Article>> {
     return this.articleService.getArticles(query, options);
   }
 
   @Get('/:id')
+  @HttpProcessor.handle({ message: '获取文章详情', usePaginate: false })
   getArticle(@Param('id') id): Promise<Article> {
     return this.articleService.findOne(id);
   }
@@ -47,19 +51,19 @@ export class ArticleController {
   @UseGuards(JwtAuthGuard)
   @HttpProcessor.handle({ message: '添加文章', usePaginate: false })
   async createArticle(@Body() newArticle: Article): Promise<Article> {
-    console.log('new article', newArticle);
     const article = await this.articleService.create(newArticle);
     return article;
   }
 
   @Put('/:id')
+  @HttpProcessor.handle({ message: '更新文章', usePaginate: false })
   async updateArticle(@Param('id') id, @Body() newArticle: Article) {
     const article = await this.articleService.update(id, newArticle);
     return article;
   }
 
   @Delete('/:id')
-  @HttpProcessor.handle('删除文章')
+  @HttpProcessor.handle({ message: '删除文章', usePaginate: false})
   async deleteArticle(@Param('id') id) {
     await this.articleService.deleteArticle(id);
     return id;
