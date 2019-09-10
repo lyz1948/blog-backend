@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
-import Category from './category.model';
+import { Category } from './category.model';
 
 @Module({
   imports: [

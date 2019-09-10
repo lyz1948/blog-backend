@@ -54,7 +54,11 @@ export class ArticleService {
   }
 
   async findOne(_id: Article): Promise<Article> {
-    const article = await this.articleModel.findOne({_id});
+    const article = await this.articleModel
+    .findOne({_id})
+    .populate('tag')
+    .populate('category')
+    .exec();
     return article;
   }
 

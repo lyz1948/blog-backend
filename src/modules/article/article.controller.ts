@@ -47,6 +47,7 @@ export class ArticleController {
   @UseGuards(JwtAuthGuard)
   @HttpProcessor.handle({ message: '添加文章', usePaginate: false })
   async createArticle(@Body() newArticle: Article): Promise<Article> {
+    console.log('new article', newArticle);
     const article = await this.articleService.create(newArticle);
     return article;
   }
