@@ -9,7 +9,7 @@ export const APP = {
 };
 
 export const MONGO = {
-  uri: `mongodb:${ argv.dbport || 27017 }//localhost/nest`,
+  uri: `mongodb://127.0.0.1:${ argv.dbport || 27017 }/nest`,
 };
 
 export const ARTICLE = {
