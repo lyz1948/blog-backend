@@ -13,7 +13,6 @@ import { PaginateResult } from 'mongoose';
 import { EHttpStatus, IHttpResultPaginate, THttpSuccessResponse } from '../interfaces/http.interface';
 
 export function transformDataToPaginate<T>(data: PaginateResult<T>, request: any): IHttpResultPaginate<T[]> {
-  console.log(data);
   return {
     data: data.docs,
     params: request ? request.queryParams : null,

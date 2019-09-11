@@ -9,7 +9,6 @@ export class HumanizedAuthorGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err, user, info) {
-    console.log('err', err, user, info);
     const passToken = !!user;
     const failToken = !user && err && info.message === 'No auth token';
 

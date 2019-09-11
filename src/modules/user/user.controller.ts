@@ -39,7 +39,6 @@ export class UserController {
   @Post('/signup')
   // @HttpCode(200)
   signUp(@Body() user: User) {
-    console.log('controller', user);
     return this.userService.signUp(user);
   }
 

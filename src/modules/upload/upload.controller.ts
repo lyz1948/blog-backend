@@ -20,7 +20,6 @@ import { PaginateResult } from 'mongoose';
 
 const pngFileFilter = (req, file, callback) => {
   const ext = extname(file.originalname);
-  console.log('ext', ext);
   if (ext !== '.png') {
     req.fileValidationError = 'Invalid file type';
     return callback(new Error('Invalid file type'), false);

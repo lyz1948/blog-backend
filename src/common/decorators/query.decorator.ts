@@ -322,10 +322,6 @@ export const QueryDecorator = createParamDecorator(
       visitors: { ip, ua, referer: request.referer },
       isAuthenticated,
     };
-
-    // console.log('queryParams\n', request.queryParams);
-    // console.log('origin\n', request.query);
-    // console.log('visitors\n', result.visitors);
     return result;
   },
 );
