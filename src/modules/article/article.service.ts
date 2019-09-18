@@ -40,13 +40,11 @@ export class ArticleService {
   async getArticles(querys, options): Promise<PaginateResult<Article>> {
     options.populate = ['category', 'tag'];
     options.select = '-password';
-    const articles = await this.articleModel.paginate(querys, options);
-    return articles;
+    return await this.articleModel.paginate(querys, options);
   }
 
   async findById(id: Article): Promise<Article> {
-    const article = await this.articleModel.findById(id).exec();
-    return article;
+    return await this.articleModel.findById(id).exec();
   }
 
   async findAll(): Promise<PaginateResult<Article>> {
@@ -56,8 +54,8 @@ export class ArticleService {
   async findOne(_id: Article): Promise<Article> {
     const article = await this.articleModel
     .findOne({_id})
-    .populate('tag')
-    .populate('category')
+    .populate({ path: 'tag' })
+    .populate({ path: 'category' })
     .exec();
     return article;
   }
@@ -68,8 +66,7 @@ export class ArticleService {
       { meta: { likes: 0, views: 0, comments: 0 } },
       newArticle,
     );
-    const article = await new this.articleModel(newArticle).save();
-    return article;
+    return await new this.articleModel(newArticle).save();
   }
 
   async update(articleId, newArticle: Article): Promise<Article> {
@@ -82,7 +79,6 @@ export class ArticleService {
   }
 
   async deleteArticle(articleId): Promise<any> {
-    const deletedArticle = await this.articleModel.findByIdAndRemove(articleId);
-    return deletedArticle;
+    return await this.articleModel.findByIdAndRemove(articleId);
   }
 }

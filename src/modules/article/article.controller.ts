@@ -50,16 +50,14 @@ export class ArticleController {
   @HttpCode(200)
   @UseGuards(JwtAuthGuard)
   @HttpProcessor.handle({ message: '添加文章', usePaginate: false })
-  async createArticle(@Body() newArticle: Article): Promise<Article> {
-    const article = await this.articleService.create(newArticle);
-    return article;
+  async createArticle(@Body() newArticle: any): Promise<Article> {
+    return await this.articleService.create(newArticle);
   }
 
   @Put('/:id')
   @HttpProcessor.handle({ message: '更新文章', usePaginate: false })
-  async updateArticle(@Param('id') id, @Body() newArticle: Article) {
-    const article = await this.articleService.update(id, newArticle);
-    return article;
+  async updateArticle(@Param('id') id, @Body() newArticle: any) {
+    return await this.articleService.update(id, newArticle);
   }
 
   @Delete('/:id')
