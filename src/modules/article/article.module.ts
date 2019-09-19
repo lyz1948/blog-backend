@@ -5,9 +5,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import Article from './article.model';
 
 @Module({
-  imports: [
-    TypegooseModule.forFeature([Article]),
-  ],
+  imports: [TypegooseModule.forFeature([Article])],
   controllers: [ArticleController],
   providers: [ArticleService],
   exports: [ArticleService],

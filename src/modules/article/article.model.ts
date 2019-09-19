@@ -49,7 +49,6 @@ export class Meta {
   startAt: 1,
   incrementBy: 1,
 })
-
 export class Article extends Typegoose {
   @IsNotEmpty({ message: '文章标题？' })
   @IsString({ message: '标题字符串？' })
@@ -151,7 +150,7 @@ const ArticleModelConfig = {
       transform: (doc, ret, options) => {
         // delete ret._id;
         delete ret.__v;
-        // delete ret.id;
+        delete ret.id;
         return ret;
       },
     },

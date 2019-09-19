@@ -1,4 +1,8 @@
-import { createParamDecorator, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  createParamDecorator,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import * as lodash from 'lodash';
 import { Types } from 'mongoose';
 import {
@@ -269,10 +273,16 @@ export const QueryDecorator = createParamDecorator(
         return false;
       }
       if (!validate.isAllowed) {
-        throw new HttpException('参数不合法：' + validate.name, HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          '参数不合法：' + validate.name,
+          HttpStatus.BAD_REQUEST,
+        );
       }
       if (validate.isIllegal) {
-        throw new HttpException('权限与参数匹配不合法：' + validate.name, HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          '权限与参数匹配不合法：' + validate.name,
+          HttpStatus.BAD_REQUEST,
+        );
       }
       validate.setValue();
     });

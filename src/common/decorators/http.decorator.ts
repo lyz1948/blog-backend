@@ -58,7 +58,8 @@ export function handle(args: THandlerOpts): MethodDecorator;
 export function handle(...args) {
   const option = args[0];
 
-  const isOption = (value: THandlerOpts): value is IHandlerOpts => lodash.isObject(value);
+  const isOption = (value: THandlerOpts): value is IHandlerOpts =>
+    lodash.isObject(value);
   const message: TMessage = isOption(option) ? option.message : option;
   const errMessage: TMessage = message + TEXT.HTTP_ERROR_SUFIX;
   const successMessage: TMessage = message + TEXT.HTTP_SUCCESS_SUFIX;

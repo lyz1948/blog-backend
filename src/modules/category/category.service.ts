@@ -6,7 +6,10 @@ import { TMongooseModel } from '../../common/interfaces/monoose.interface';
 
 @Injectable()
 export class CategoryService {
-  constructor(@InjectModel(Category) private readonly categoryModule: TMongooseModel<Category>) {}
+  constructor(
+    @InjectModel(Category)
+    private readonly categoryModule: TMongooseModel<Category>,
+  ) {}
 
   async findAll(query, options): Promise<PaginateResult<Category>> {
     return await this.categoryModule.paginate(query, options);

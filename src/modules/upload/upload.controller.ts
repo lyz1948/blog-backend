@@ -30,7 +30,6 @@ const pngFileFilter = (req, file, callback) => {
 
 @Controller('upload')
 export class UploadController {
-
   SERVER_URL: string = 'http://localhost:5381/';
 
   constructor(private readonly uploadService: UploadService) {}
@@ -51,7 +50,10 @@ export class UploadController {
   }
 
   @Get('/article')
-  getAritcleImages(querys: string, options: any): Promise<PaginateResult<Upload>> {
+  getAritcleImages(
+    querys: string,
+    options: any,
+  ): Promise<PaginateResult<Upload>> {
     return this.uploadService.getImages(querys, options);
   }
 

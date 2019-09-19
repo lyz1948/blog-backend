@@ -61,7 +61,7 @@ export class ArticleController {
   }
 
   @Delete('/:id')
-  @HttpProcessor.handle({ message: '删除文章', usePaginate: false})
+  @HttpProcessor.handle({ message: '删除文章', usePaginate: false })
   async deleteArticle(@Param('id') id) {
     await this.articleService.deleteArticle(id);
     return id;

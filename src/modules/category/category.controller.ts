@@ -37,9 +37,7 @@ export class CategoryController {
   @Post()
   @HttpCode(200)
   @HttpProcessor.handle('添加文章分类')
-  async createCategory(
-    @Body() newCate: Category,
-  ): Promise<Category> {
+  async createCategory(@Body() newCate: Category): Promise<Category> {
     return await this.categoryService.create(newCate);
   }
 

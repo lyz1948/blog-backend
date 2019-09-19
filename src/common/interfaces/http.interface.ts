@@ -5,20 +5,22 @@ export enum EHttpStatus {
 }
 
 export type TMessage = string;
-export type TExceptionOption = TMessage | {
-  message: TMessage;
-  error?: any
-};
+export type TExceptionOption =
+  | TMessage
+  | {
+      message: TMessage;
+      error?: any;
+    };
 
 // 翻页数据
 export interface IHttpResultPaginate<T> {
   data: T;
   params: any;
   pagination: {
-    total: number,
-    current_page: number,
-    total_page: number,
-    per_page: number,
+    total: number;
+    current_page: number;
+    total_page: number;
+    per_page: number;
   };
 }
 
@@ -31,7 +33,7 @@ export interface IHttpResponseBase {
 // HTTP error
 export type THttpErrorResponse = IHttpResponseBase & {
   error: any;
-  debug?: string
+  debug?: string;
 };
 
 // HTTP success 返回

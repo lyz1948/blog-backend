@@ -11,7 +11,6 @@ import {
   this.findOneAndUpdate({}, { update_at: Date.now() });
   next();
 })
-
 @plugin(mongoosePaginate)
 @plugin(mongooseAutoIncrement.plugin, {
   model: Category.name, // schema的名字
@@ -19,7 +18,6 @@ import {
   startAt: 1,
   incrementBy: 1,
 })
-
 export class Category extends Typegoose {
   @IsNotEmpty({ message: '分类名称不能少啊！' })
   @IsString({ message: '分类标题不是字符串格式！ ' })
@@ -62,7 +60,7 @@ const CategoryModelConfig = {
       transform: (doc, ret, options) => {
         // delete ret._id;
         delete ret.__v;
-        // delete ret.id;
+        delete ret.id;
         return ret;
       },
     },

@@ -1,9 +1,19 @@
 import * as lodash from 'lodash';
 import { isDevMode } from '../../app.environment';
-import { EHttpStatus, THttpErrorResponse, TExceptionOption, TMessage } from '../interfaces/http.interface';
+import {
+  EHttpStatus,
+  THttpErrorResponse,
+  TExceptionOption,
+  TMessage,
+} from '../interfaces/http.interface';
 import { HttpStatus } from '@nestjs/common';
 
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch(HttpException)
@@ -16,11 +26,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const errorOption: TExceptionOption = exception.getResponse() as TExceptionOption;
     const isString = (value): value is TMessage => lodash.isString(value);
-    const errMessage = isString(errorOption) ? errorOption : errorOption.message;
+    const errMessage = isString(errorOption)
+      ? errorOption
+      : errorOption.message;
     const errorInfo = isString(errorOption) ? null : errorOption.error;
     const parentErrorInfo = errorInfo ? String(errorInfo) : null;
     const isChildrenError = errorInfo && errorInfo.status && errorInfo.message;
-    const resultError = isChildrenError && errorInfo.message || parentErrorInfo;
+    const resultError =
+      (isChildrenError && errorInfo.message) || parentErrorInfo;
     const resultStatus = isChildrenError ? errorInfo.status : status;
     const data: THttpErrorResponse = {
       status: EHttpStatus.Error,

@@ -6,7 +6,9 @@ import { PaginateResult } from 'mongoose';
 
 @Injectable()
 export class TagService {
-  constructor(@InjectModel(Tag) private readonly tagModule: TMongooseModel<Tag>) {}
+  constructor(
+    @InjectModel(Tag) private readonly tagModule: TMongooseModel<Tag>,
+  ) {}
 
   async findAll(query, options): Promise<PaginateResult<Tag>> {
     return await this.tagModule.paginate(query, options);

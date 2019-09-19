@@ -16,7 +16,6 @@ import {
   startAt: 1,
   incrementBy: 1,
 })
-
 export class User extends Typegoose {
   @IsDefined()
   @IsString({ message: '用户名？' })
@@ -30,7 +29,9 @@ export class User extends Typegoose {
 
   @IsDefined()
   @IsString({ message: '头像？' })
-  @prop({ default: 'https://avatars1.githubusercontent.com/u/15190827?s=460&v=4' })
+  @prop({
+    default: 'https://avatars1.githubusercontent.com/u/15190827?s=460&v=4',
+  })
   avatar: string;
 
   _id?: string;
@@ -59,7 +60,7 @@ const UserModelConfig = {
       virtuals: true,
       versionKey: false,
       transform: (doc, ret, options) => {
-        delete ret._id;
+        // delete ret._id;
         delete ret.__v;
         delete ret.id;
         return ret;

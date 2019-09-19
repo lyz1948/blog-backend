@@ -5,7 +5,14 @@ import {
   mongooseAutoIncrement,
 } from '../../common/transforms/mongoose.transform';
 import { Extend } from '../../common/models/extend.model';
-import { IsNotEmpty, IsString, IsArray, ArrayUnique, IsInt, Max } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsArray,
+  ArrayUnique,
+  IsInt,
+  Max,
+} from 'class-validator';
 
 @pre<Upload>('findOneAndUpdate', function(next) {
   this.findOneAndUpdate({}, { update_at: Date.now() });
@@ -18,7 +25,6 @@ import { IsNotEmpty, IsString, IsArray, ArrayUnique, IsInt, Max } from 'class-va
   startAt: 1,
   incrementBy: 1,
 })
-
 export class Upload extends Typegoose {
   @IsNotEmpty({ message: '标签名称不能少啊！' })
   @IsString({ message: '标签名称不是字符串！' })

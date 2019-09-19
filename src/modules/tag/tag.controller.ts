@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Param,
+  HttpCode,
+} from '@nestjs/common';
 import { TagService } from './tag.service';
 import { Tag } from './tag.model';
 import { HttpProcessor } from '../../common/decorators/http.decorator';
@@ -12,9 +21,13 @@ export class TagController {
   @Get()
   @HttpProcessor.paginate()
   @HttpProcessor.handle('获取文章标签')
-  async getTags(
-    @QueryDecorator() { query, options, origin, isAuthenticated },
-  ): Promise<PaginateResult<Tag>> {
+  async getTags(@QueryDecorator()
+  {
+    query,
+    options,
+    origin,
+    isAuthenticated,
+  }): Promise<PaginateResult<Tag>> {
     return await this.tagService.findAll(query, options);
   }
 

@@ -9,8 +9,6 @@ import {
   UploadedFile,
   HttpCode,
   Put,
-  HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
@@ -26,37 +24,35 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async getUsers(): Promise<User[]> {
-    return await this.userService.findAll();
+  getUsers(): Promise<User[]> {
+    return this.userService.findAll();
   }
 
   @Get('/admin')
   @HttpProcessor.handle('管理员登录')
-  async getUser(): Promise<User> {
-    return await this.userService.getUserInfo();
+  getUser(): Promise<User> {
+    return this.userService.getUserInfo();
   }
 
   @Post('/signup')
-  // @HttpCode(200)
-  signUp(@Body() user: User) {
+  @HttpProcessor.handle('用户注册')
+  @HttpCode(200)
+  signUp(@Body() user: any): Promise<User> {
     return this.userService.signUp(user);
   }
 
   @Post('/signin')
   @HttpCode(200)
-  async signIn(@Body() user: UserLogin): Promise<ITokenResult> {
-    const res = await this.userService.signIn(user);
-    return res;
+  @HttpProcessor.handle('用户登录')
+  signIn(@Body() user: UserLogin): Promise<ITokenResult> {
+    return this.userService.signIn(user);
   }
 
   @Put('/profile')
   @HttpCode(200)
-  async updateUserInfo(@Body() info: User): Promise<User> {
-    const userInfo = await this.userService.update(info);
-    if (!userInfo) {
-      throw new HttpUnauthorizeError('旧密码校验错误', HttpStatus.BAD_REQUEST);
-    }
-    return userInfo;
+  @HttpProcessor.handle('更新管理员信息')
+  updateUserInfo(@Body() user: any): Promise<User> {
+    return this.userService.update(user);
   }
 
   @Get('avatar/:fileId')

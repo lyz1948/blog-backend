@@ -15,10 +15,12 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(BodyParser.urlencoded({ extended: true }));
   app.use(BodyParser.json());
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    disableErrorMessages: (CONFIG.APP.dev ? true : false),
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      disableErrorMessages: CONFIG.APP.dev ? true : false,
+    }),
+  );
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(
     new LoggingInterceptor(),
@@ -28,5 +30,7 @@ async function bootstrap() {
   await app.listen(CONFIG.APP.port);
 }
 bootstrap().then(() => {
-  console.log(`service is runing at port ${CONFIG.APP.port} env ${CONFIG.APP.env}`);
+  console.log(
+    `service is runing at port ${CONFIG.APP.port} env ${CONFIG.APP.env}`,
+  );
 });

@@ -18,7 +18,6 @@ import { IsNotEmpty, IsString, IsArray, ArrayUnique } from 'class-validator';
   startAt: 1,
   incrementBy: 1,
 })
-
 export class Tag extends Typegoose {
   @IsNotEmpty({ message: '标签名称不能少啊！' })
   @IsString({ message: '标签名称不是字符串！' })
@@ -60,7 +59,7 @@ const TagModelConfig = {
       transform: (doc, ret, options) => {
         // delete ret._id;
         delete ret.__v;
-        // delete ret.id;
+        delete ret.id;
         return ret;
       },
     },

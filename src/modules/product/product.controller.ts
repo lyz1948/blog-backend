@@ -1,4 +1,12 @@
-import { Controller, Get, Body, HttpException, Res, HttpStatus, Post } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Body,
+  HttpException,
+  Res,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.schema';
 

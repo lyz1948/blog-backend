@@ -4,9 +4,7 @@ import { UploadService } from './upload.service';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { Upload } from './upload.model';
 @Module({
-  imports: [
-    TypegooseModule.forFeature([Upload]),
-  ],
+  imports: [TypegooseModule.forFeature([Upload])],
   providers: [UploadService],
   controllers: [UploadController],
   exports: [UploadService],
