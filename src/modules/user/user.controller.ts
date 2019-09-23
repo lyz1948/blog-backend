@@ -1,18 +1,11 @@
 import {
 	Controller,
 	Get,
-	Res,
 	Post,
 	Body,
-	Param,
-	UseInterceptors,
-	UploadedFile,
 	HttpCode,
 	Put,
 } from '@nestjs/common'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { extname } from 'path'
-import { diskStorage } from 'multer'
 import { UserService } from './user.service'
 import { ITokenResult } from './user.interface'
 import { User, UserLogin } from './user.model'

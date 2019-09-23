@@ -144,7 +144,7 @@ export class UserService {
 	// 获取用户信息
 	async getUserInfo(): Promise<User> {
 		return await this.userModel
-			.findOne(null, '_id, username slogan avatar')
+			.findOne(null, '_id, name slogan avatar')
 			.exec()
 	}
 
@@ -157,17 +157,17 @@ export class UserService {
 
 	// 用户登录
 	signIn(userInfo: any): Promise<ITokenResult> {
-		const { username, password } = userInfo
+		const { name, password } = userInfo
 
 		return this.userModel
-			.findOne({ username })
+			.findOne({ name })
 			.exec()
 			.then(user => {
 				const existPwd = this.getExistPassword(user)
 				const existName = this.getExistUsername(user)
 				const submittedPwd = this.makeMD5(this.decodeBase64(password))
 
-				if (existName === username && existPwd === submittedPwd) {
+				if (existName === name && existPwd === submittedPwd) {
 					// 对比密码是否相同
 					return Promise.resolve(this.createToken())
 				}
