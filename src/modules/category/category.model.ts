@@ -1,11 +1,11 @@
 import { Types } from 'mongoose'
-import { Extend } from '../../common/models/extend.model'
+import { Extend } from '@app/common/models/extend.model'
 import { pre, prop, plugin, arrayProp, Typegoose } from 'typegoose'
 import { IsString, IsNotEmpty, IsArray, ArrayUnique } from 'class-validator'
 import {
 	mongoosePaginate,
 	mongooseAutoIncrement,
-} from '../../common/transforms/mongoose.transform'
+} from '@app/common/transforms/mongoose.transform'
 
 @pre<Category>('findOneAndUpdate', function(next) {
 	this.findOneAndUpdate({}, { update_at: Date.now() })

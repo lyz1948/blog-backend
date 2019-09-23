@@ -1,4 +1,4 @@
-import { environment, isDevMode } from './app.environment'
+import { environment, isDevMode } from '../app.environment'
 
 export const APP = {
 	limit: 10,
@@ -25,8 +25,8 @@ export const INFO = {
 }
 
 export const USER = {
-	user: 'root',
 	data: { user: 'root' },
+	defaultUser: 'root',
 	defaultPwd: 'root',
 	jwtTokenSecret: 'nestblog',
 	expiresIn: 3600,

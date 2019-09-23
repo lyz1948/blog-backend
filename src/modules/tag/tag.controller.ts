@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common'
 import { TagService } from './tag.service'
 import { Tag } from './tag.model'
-import { HttpProcessor } from '../../common/decorators/http.decorator'
-import { QueryDecorator } from '../../common/decorators/query.decorator'
+import { HttpProcessor } from '@app/common/decorators/http.decorator'
+import { QueryDecorator } from '@app/common/decorators/query.decorator'
 import { PaginateResult } from 'mongoose'
 
 @Controller('tag')
@@ -40,14 +40,12 @@ export class TagController {
 	@HttpCode(200)
 	@HttpProcessor.handle({ message: '添加标签', usePaginate: false })
 	async createTag(@Body() newTag: Tag): Promise<Tag> {
-		const tag = await this.tagService.create(newTag)
-		return tag
+		return await this.tagService.create(newTag)
 	}
 
 	@Put('/:id')
 	async updateTag(@Param('id') id, @Body() newTag: Tag): Promise<Tag> {
-		const tag = await this.tagService.update(id, newTag)
-		return tag
+		return await this.tagService.update(id, newTag)
 	}
 
 	@Delete('/:id')

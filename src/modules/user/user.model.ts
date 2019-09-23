@@ -3,7 +3,7 @@ import { IsDefined, IsString, IsNotEmpty } from 'class-validator'
 import {
 	mongoosePaginate,
 	mongooseAutoIncrement,
-} from '../../common/transforms/mongoose.transform'
+} from '@app/common/transforms/mongoose.transform'
 
 @pre<User>('findOneAndUpdate', function(next) {
 	this.findOneAndUpdate({}, { update_at: Date.now() })
@@ -34,8 +34,12 @@ export class User extends Typegoose {
 	})
 	avatar: string
 
-	_id?: string
+	@IsDefined()
+	@IsString({ message: '密码？' })
+	@prop({ default: 'root' })
 	password?: string
+
+	_id?: string
 	password_new?: string
 	password_new_rep?: string
 }

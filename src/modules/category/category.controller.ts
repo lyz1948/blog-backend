@@ -5,17 +5,14 @@ import {
 	Body,
 	Delete,
 	Put,
-	Res,
 	Param,
-	HttpStatus,
-	NotFoundException,
 	HttpCode,
 } from '@nestjs/common'
 import { PaginateResult } from 'mongoose'
 import { CategoryService } from './category.service'
 import { Category } from './category.model'
-import { QueryDecorator } from '../../common/decorators/query.decorator'
-import { HttpProcessor } from '../../common/decorators/http.decorator'
+import { QueryDecorator } from '@app/common/decorators/query.decorator'
+import { HttpProcessor } from '@app/common/decorators/http.decorator'
 
 @Controller('category')
 export class CategoryController {
@@ -44,7 +41,6 @@ export class CategoryController {
 	@Put('/:id')
 	@HttpProcessor.handle('更新文章分类')
 	async updateCategory(
-		@Res() res,
 		@Param('id') id,
 		@Body() newCate: Category
 	): Promise<Category> {

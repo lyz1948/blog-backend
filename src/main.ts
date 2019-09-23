@@ -5,7 +5,8 @@ import { ValidationPipe } from '@nestjs/common'
 import { HttpExceptionFilter } from './common/filters/error.filter'
 import { LoggingInterceptor } from './common/interceptors/logger.interceptor'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
-import * as CONFIG from './app.config'
+import { ErrorInterceptor } from './common/interceptors/error.interceptor'
+import * as CONFIG from './config'
 import * as BodyParser from 'body-parser'
 import { join } from 'path'
 
@@ -24,6 +25,7 @@ async function bootstrap() {
 	app.useGlobalFilters(new HttpExceptionFilter())
 	app.useGlobalInterceptors(
 		new LoggingInterceptor(),
+		new ErrorInterceptor(new Reflector()),
 		new TransformInterceptor(new Reflector())
 	)
 	app.useStaticAssets(join(__dirname, '..'))

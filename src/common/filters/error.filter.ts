@@ -1,13 +1,5 @@
 import * as lodash from 'lodash'
-import { isDevMode } from '../../app.environment'
-import {
-	EHttpStatus,
-	THttpErrorResponse,
-	TExceptionOption,
-	TMessage,
-} from '../interfaces/http.interface'
 import { HttpStatus } from '@nestjs/common'
-
 import {
 	ExceptionFilter,
 	Catch,
@@ -15,6 +7,14 @@ import {
 	HttpException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
+import { isDevMode } from '../../app.environment'
+import {
+	EHttpStatus,
+	THttpErrorResponse,
+	TExceptionOption,
+	TMessage,
+} from '../interfaces/http.interface'
+import { ApiException } from '../exceptions/api.exception'
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -25,6 +25,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		const status = exception.getStatus()
 
 		const errorOption: TExceptionOption = exception.getResponse() as TExceptionOption
+
 		const isString = (value): value is TMessage => lodash.isString(value)
 		const errMessage = isString(errorOption) ? errorOption : errorOption.message
 		const errorInfo = isString(errorOption) ? null : errorOption.error
@@ -33,6 +34,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		const resultError =
 			(isChildrenError && errorInfo.message) || parentErrorInfo
 		const resultStatus = isChildrenError ? errorInfo.status : status
+
 		const data: THttpErrorResponse = {
 			status: EHttpStatus.Error,
 			message: errMessage,
@@ -45,13 +47,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
 			data.error = `资源不存在`
 			data.message = `接口 ${request.method} -> ${request.url} 无效`
 		}
-		return response.status(resultStatus).json(data)
-		// response
-		//   .status(status)
-		//   .json({
-		//     statusCode: status,
-		//     timestamp: new Date().toISOString(),
-		//     path: request.url,
-		//   });
+		// 自定义错误码
+		if (exception instanceof ApiException) {
+			response.status(status).json({
+				errorCode: exception.getErrorCode(),
+				errorMessage: exception.getErrorMessage(),
+				date: new Date().toLocaleDateString(),
+				path: request.url,
+			})
+		} else {
+			return response.status(resultStatus).json(data)
+		}
 	}
 }

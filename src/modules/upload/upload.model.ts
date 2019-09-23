@@ -3,8 +3,8 @@ import { Typegoose, pre, plugin, prop, arrayProp } from 'typegoose'
 import {
 	mongoosePaginate,
 	mongooseAutoIncrement,
-} from '../../common/transforms/mongoose.transform'
-import { Extend } from '../../common/models/extend.model'
+} from '@app/common/transforms/mongoose.transform'
+import { Extend } from '@app/common/models/extend.model'
 import {
 	IsNotEmpty,
 	IsString,

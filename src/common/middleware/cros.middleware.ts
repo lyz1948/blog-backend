@@ -1,4 +1,4 @@
-import * as CONFIG from '../../app.config'
+import * as CONFIG from '@app/config/index'
 import { isDevMode } from '../../app.environment'
 import {
 	Injectable,

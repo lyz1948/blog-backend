@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from 'nestjs-typegoose'
-import { Tag } from './tag.model'
-import { TMongooseModel } from '../../common/interfaces/monoose.interface'
 import { PaginateResult } from 'mongoose'
+import { InjectModel } from 'nestjs-typegoose'
+import { TMongooseModel } from '@app/common/interfaces/monoose.interface'
+import { Tag } from './tag.model'
 
 @Injectable()
 export class TagService {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from 'nestjs-typegoose'
 import { PaginateResult } from 'mongoose'
 import { Category } from './category.model'
-import { TMongooseModel } from '../../common/interfaces/monoose.interface'
+import { TMongooseModel } from '@app/common/interfaces/monoose.interface'
 
 @Injectable()
 export class CategoryService {

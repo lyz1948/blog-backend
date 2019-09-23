@@ -14,14 +14,14 @@ import {
 } from '@nestjs/common'
 import { ArticleService } from './article.service'
 import { Article } from './article.model'
-import { HttpProcessor } from '../../common/decorators/http.decorator'
+import { HttpProcessor } from '@app/common/decorators/http.decorator'
 import { PaginateResult } from 'mongoose'
-import { JwtAuthGuard } from '../../common/guards/auth.guard'
-import { HumanizedAuthorGuard } from '../../common/guards/humanizedAuth.guard'
+import { JwtAuthGuard } from '@app/common/guards/auth.guard'
+import { HumanizedAuthorGuard } from '@app/common/guards/humanizedAuth.guard'
 import {
 	QueryDecorator,
 	EQueryOptionField as QueryParams,
-} from '../../common/decorators/query.decorator'
+} from '@app/common/decorators/query.decorator'
 
 @Controller('article')
 export class ArticleController {

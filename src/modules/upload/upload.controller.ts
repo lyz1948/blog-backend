@@ -15,7 +15,7 @@ import { UploadService } from './upload.service'
 import { Upload } from './upload.model'
 import { diskStorage } from 'multer'
 import { extname } from 'path'
-import { HttpProcessor } from '../../common/decorators/http.decorator'
+import { HttpProcessor } from '@app/common/decorators/http.decorator'
 import { PaginateResult } from 'mongoose'
 
 const pngFileFilter = (req, file, callback) => {
@@ -57,8 +57,13 @@ export class UploadController {
 		return this.uploadService.getImages(querys, options)
 	}
 
-	@HttpCode(200)
+	@Get('/avatar/:fileId')
+	async serveAvatar(@Param('fileId') fileId, @Res() res) {
+		res.sendFile(fileId, { root: 'uploads' })
+	}
+
 	@Post('/article')
+	@HttpCode(200)
 	@HttpProcessor.handle({ message: '上传文章缩略图', usePaginate: false })
 	@UseInterceptors(
 		FileInterceptor('image', {
@@ -74,8 +79,28 @@ export class UploadController {
 			}),
 		})
 	)
-	async uploadAvatar(@UploadedFile() image) {
-		const res = await this.uploadService.uploadImage(image)
-		return res
+	uploadArticleThumb(@UploadedFile() image) {
+		return this.uploadService.uploadImage(image)
+	}
+
+	@Post('/avatar')
+	@HttpCode(200)
+	@HttpProcessor.handle({ message: '上传头像', usePaginate: false })
+	@UseInterceptors(
+		FileInterceptor('image', {
+			storage: diskStorage({
+				destination: './uploads/avatars',
+				filename: (req, file, cb) => {
+					const randomName = Array(32)
+						.fill(null)
+						.map(() => Math.round(Math.random() * 16).toString(16))
+						.join('')
+					return cb(null, `${randomName}${extname(file.originalname)}`)
+				},
+			}),
+		})
+	)
+	uploadAvatar(@UploadedFile() avatar) {
+		return this.uploadService.uploadImage(avatar)
 	}
 }

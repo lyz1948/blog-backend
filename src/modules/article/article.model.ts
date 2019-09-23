@@ -6,7 +6,6 @@ import {
 	IsDefined,
 	IsIn,
 	IsInt,
-	ArrayNotEmpty,
 	ArrayUnique,
 } from 'class-validator'
 import {
@@ -17,11 +16,11 @@ import {
 	EStateOrigin,
 	EStatePublic,
 	EStatePublish,
-} from '../../common/interfaces/state.interface'
-import { Extend } from '../../common/models/extend.model'
-import { Category } from '../../modules/category/category.model'
-import { Tag } from '../../modules/tag/tag.model'
-import * as CONFIG from '../../app.config'
+} from '@app/common/interfaces/state.interface'
+import { Extend } from '@app/common/models/extend.model'
+import { Category } from '@app/modules/category/category.model'
+import { Tag } from '@app/modules/tag/tag.model'
+import * as CONFIG from '@app/config/index'
 
 // 元信息
 export class Meta {

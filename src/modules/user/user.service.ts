@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, HttpStatus } from '@nestjs/common'
 import { InjectModel } from 'nestjs-typegoose'
 import { JwtService } from '@nestjs/jwt'
 import { createHash } from 'crypto'
@@ -6,8 +6,9 @@ import * as lodash from 'lodash'
 import { Base64 } from 'js-base64'
 import { User } from './user.model'
 import { ITokenResult } from './user.interface'
-import { TMongooseModel } from '../../common/interfaces/monoose.interface'
-import * as CONFIG from '../../app.config'
+import { TMongooseModel } from '@app/common/interfaces/monoose.interface'
+import * as CONFIG from '@app/config/index'
+import { CustomError } from '@app/common/errors/custom.error'
 
 @Injectable()
 export class UserService {
@@ -15,9 +16,7 @@ export class UserService {
 		@InjectModel(User)
 		private readonly userModel: TMongooseModel<User>,
 		private readonly jwtService: JwtService
-	) {
-		console.log('decode', this.decodeBase64('MTExMTEx'))
-	}
+	) {}
 
 	private makeMD5(password) {
 		return createHash('md5')
@@ -33,6 +32,13 @@ export class UserService {
 		return password ? Base64.decode(password) : password
 	}
 
+	// 获取昵称
+	private getExistUsername(user: any): string {
+		if (user) {
+			user = user.toObject()
+			return user.username || this.makeMD5(CONFIG.USER.defaultUser as string)
+		}
+	}
 	// 获取密码
 	private getExistPassword(user: any): string {
 		if (user) {
@@ -85,7 +91,7 @@ export class UserService {
 	}
 
 	// 更新用户信息
-	async update(user: User): Promise<User> {
+	update(user: any): Promise<User> {
 		const password = this.decodeBase64(user.password)
 		const newPassword = this.decodeBase64(user.password_new)
 
@@ -100,45 +106,45 @@ export class UserService {
 				return Promise.reject('新旧密码不允许一样')
 			}
 		}
-		const exsitUser = await this.userModel.findOne().exec()
 
-		if (password) {
-			const sbmtPassword = this.makeMD5(password)
-			const oldPassword = this.getExistPassword(exsitUser)
+		this.userModel
+			.findOne()
+			.exec()
+			.then(exsitUser => {
+				if (password) {
+					const sbmtPassword = this.makeMD5(password)
+					const oldPassword = this.getExistPassword(exsitUser)
 
-			if (sbmtPassword !== oldPassword) {
-				return Promise.reject('原始密码错误')
-			} else {
-				user.password = this.makeMD5(newPassword)
-			}
-		}
-		// 更新数据
-		const action =
-			exsitUser && !!exsitUser._id
-				? Object.assign(exsitUser, user).save()
-				: new this.userModel(user).save()
+					if (sbmtPassword !== oldPassword) {
+						return Promise.reject('原始密码错误')
+					} else {
+						user.password = this.makeMD5(newPassword)
+					}
+				}
 
-		return action.then(data => {
-			data = data.toObject()
-			Reflect.deleteProperty(data, 'password')
-			return data
-		})
+				// 更新数据
+				const action =
+					exsitUser && !!exsitUser._id
+						? Object.assign(exsitUser, user).save().exec()
+						: new this.userModel(user).save()
+
+				return action.then(data => {
+					data = data.toObject()
+					Reflect.deleteProperty(data, 'password')
+					return { result: data }
+				})
+			})
 	}
 
 	// 删除用户
-	async delete(id: string): Promise<string> {
-		try {
-			await this.userModel.findByIdAndRemove(id).exec()
-			return 'The user has been deleted'
-		} catch (err) {
-			return 'The user could not be deleted'
-		}
+	async delete(id: string): Promise<any> {
+		return await this.userModel.findByIdAndRemove(id).exec()
 	}
 
 	// 获取用户信息
 	async getUserInfo(): Promise<User> {
 		return await this.userModel
-			.findOne(null, '-_id username slogan avatar')
+			.findOne(null, '_id, username slogan avatar')
 			.exec()
 	}
 
@@ -151,20 +157,22 @@ export class UserService {
 
 	// 用户登录
 	signIn(userInfo: any): Promise<ITokenResult> {
-		const { password } = userInfo
+		const { username, password } = userInfo
 
 		return this.userModel
-			.findOne()
+			.findOne({ username })
 			.exec()
 			.then(user => {
 				const existPwd = this.getExistPassword(user)
+				const existName = this.getExistUsername(user)
 				const submittedPwd = this.makeMD5(this.decodeBase64(password))
 
-				if (existPwd === submittedPwd) {
+				if (existName === username && existPwd === submittedPwd) {
 					// 对比密码是否相同
 					return Promise.resolve(this.createToken())
 				}
-				return Promise.reject('用户名或密码错误')
+				throw new CustomError({ message: '用户名或密码错误', error: new Error('400') })
+				// return Promise.reject('用户名或密码错误')
 			})
 	}
 }
