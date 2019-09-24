@@ -36,7 +36,7 @@ export class UserService {
 	private getExistUsername(user: any): string {
 		if (user) {
 			user = user.toObject()
-			return user.username || this.makeMD5(CONFIG.USER.defaultUser as string)
+			return user.name || this.makeMD5(CONFIG.USER.defaultUser as string)
 		}
 	}
 	// 获取密码
