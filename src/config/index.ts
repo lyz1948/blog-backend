@@ -27,6 +27,7 @@ export const INFO = {
 
 export const USER = {
 	data: argv.user_data || { user: 'root' },
+	defaultUser: argv.user_name || 'root',
 	defaultPwd: argv.user_password || 'root',
 	jwtTokenSecret: argv.user_token_key || 'nestblog',
 	expiresIn: argv.user_expires || 3600,
