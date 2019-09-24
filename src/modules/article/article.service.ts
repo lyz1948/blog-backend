@@ -4,7 +4,7 @@ import { TMongooseModel } from '@app/common/interfaces/monoose.interface'
 import { Article } from './article.model'
 import { PaginateResult } from 'mongoose'
 
-// import * as CONFIG from '@app/app.config';
+// import * as CONFIG from '@app/config';
 // const qiniu = require('qiniu');
 // const nanoid = require('nanoid');
 

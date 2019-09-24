@@ -1,4 +1,5 @@
-import { environment, isDevMode } from '../app.environment'
+import { environment, isDevMode } from '@app/app.environment'
+import { argv } from 'yargs'
 
 export const APP = {
 	limit: 10,
@@ -8,7 +9,7 @@ export const APP = {
 }
 
 export const MONGO = {
-	uri: 'mongodb://localhost/nest',
+	uri: `mongodb://127.0.0.1:${argv.dbport || 27017}/nest`,
 }
 
 export const ARTICLE = {
@@ -17,7 +18,7 @@ export const ARTICLE = {
 }
 
 export const CROSS_DOMAIN = {
-	allowedOrigins: 'http://localhost:5381',
+	allowedOrigins: argv.site || 'http://localhost:5381',
 }
 
 export const INFO = {
@@ -25,9 +26,8 @@ export const INFO = {
 }
 
 export const USER = {
-	data: { user: 'root' },
-	defaultUser: 'root',
-	defaultPwd: 'root',
-	jwtTokenSecret: 'nestblog',
-	expiresIn: 3600,
+	data: argv.user_data || { user: 'root' },
+	defaultPwd: argv.user_password || 'root',
+	jwtTokenSecret: argv.user_token_key || 'nestblog',
+	expiresIn: argv.user_expires || 3600,
 }

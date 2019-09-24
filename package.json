@@ -26,6 +26,7 @@
     "@nestjs/jwt": "^6.1.1",
     "@nestjs/passport": "^6.1.0",
     "@nestjs/platform-express": "^6.0.0",
+    "@types/yargs": "^13.0.2",
     "body-parser": "^1.19.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
@@ -46,7 +47,8 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "typegoose": "^5.7.1"
+    "typegoose": "^5.7.1",
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
