@@ -11,12 +11,12 @@ import {
 	HttpCode,
 } from '@nestjs/common'
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
-import { UploadService } from './upload.service'
-import { Upload } from './upload.model'
-import { diskStorage } from 'multer'
 import { extname } from 'path'
-import { HttpProcessor } from '@app/common/decorators/http.decorator'
+import { diskStorage } from 'multer'
 import { PaginateResult } from 'mongoose'
+import { Upload } from './upload.model'
+import { UploadService } from './upload.service'
+import { HttpProcessor } from '@app/common/decorators/http.decorator'
 
 const pngFileFilter = (req, file, callback) => {
 	const ext = extname(file.originalname)
@@ -30,8 +30,6 @@ const pngFileFilter = (req, file, callback) => {
 
 @Controller('upload')
 export class UploadController {
-	SERVER_URL: string = 'http://localhost:5381/'
-
 	constructor(private readonly uploadService: UploadService) {}
 
 	@Post('/files')

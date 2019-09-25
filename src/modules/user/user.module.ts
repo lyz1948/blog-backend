@@ -7,7 +7,7 @@ import { UserService } from './user.service'
 import { JwtStrategy } from './jwt.strategy'
 import { UserController } from './user.controller'
 import User from './user.model'
-import * as CONFIG from '@app/config/index'
+import * as CONFIG from '@app/app.config'
 
 @Module({
 	imports: [

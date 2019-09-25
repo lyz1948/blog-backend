@@ -1,15 +1,11 @@
 import { Typegoose, pre, plugin, prop, arrayProp } from 'typegoose'
-import {
-	mongoosePaginate,
-	mongooseAutoIncrement,
-} from '@app/common/transforms/mongoose.transform'
+
 import {
 	IsNotEmpty,
 	IsString,
 	IsArray,
 	ArrayUnique,
 	IsInt,
-	IsDefined,
 } from 'class-validator'
 
 // 元信息

@@ -7,7 +7,7 @@ import {
 	EStatePublish,
 	EStatePublic,
 	EStateOrigin,
-} from '../interfaces/state.interface'
+} from '@app/common/interfaces/state.interface'
 
 export enum EQueryOptionField {
 	Page = 'page',

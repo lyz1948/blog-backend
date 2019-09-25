@@ -1,6 +1,6 @@
 // import * as mongoose from 'mongoose';
-import * as CONFIG from '@app/config/index'
-import { mongoose } from '../transforms/mongoose.transform'
+import * as CONFIG from '@app/app.config'
+import { mongoose } from '@app/common/transforms/mongoose.transform'
 
 export const databaseProviders = [
 	{

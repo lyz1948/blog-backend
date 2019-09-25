@@ -18,8 +18,6 @@ export class SiteController {
   @HttpProcessor.handle('修改站点设置')
   // @UseGuards(JwtAuthGuard)
 	setSiteOption(@Body() siteOption: Site): Promise<Site> {
-		console.log('co', siteOption)
-
 		return this.siteService.setSite(siteOption)
 	}
 }

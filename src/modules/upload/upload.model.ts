@@ -1,10 +1,4 @@
-import { Types } from 'mongoose'
 import { Typegoose, pre, plugin, prop, arrayProp } from 'typegoose'
-import {
-	mongoosePaginate,
-	mongooseAutoIncrement,
-} from '@app/common/transforms/mongoose.transform'
-import { Extend } from '@app/common/models/extend.model'
 import {
 	IsNotEmpty,
 	IsString,
@@ -13,6 +7,11 @@ import {
 	IsInt,
 	Max,
 } from 'class-validator'
+import {
+	mongoosePaginate,
+	mongooseAutoIncrement,
+} from '@app/common/transforms/mongoose.transform'
+import { Extend } from '@app/common/models/extend.model'
 
 @pre<Upload>('findOneAndUpdate', function(next) {
 	this.findOneAndUpdate({}, { update_at: Date.now() })

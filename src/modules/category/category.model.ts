@@ -1,7 +1,7 @@
 import { Types } from 'mongoose'
-import { Extend } from '@app/common/models/extend.model'
 import { pre, prop, plugin, arrayProp, Typegoose } from 'typegoose'
 import { IsString, IsNotEmpty, IsArray, ArrayUnique } from 'class-validator'
+import { Extend } from '@app/common/models/extend.model'
 import {
 	mongoosePaginate,
 	mongooseAutoIncrement,

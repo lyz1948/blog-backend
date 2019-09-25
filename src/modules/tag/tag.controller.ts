@@ -8,11 +8,11 @@ import {
 	Param,
 	HttpCode,
 } from '@nestjs/common'
-import { TagService } from './tag.service'
+import { PaginateResult } from 'mongoose'
 import { Tag } from './tag.model'
+import { TagService } from './tag.service'
 import { HttpProcessor } from '@app/common/decorators/http.decorator'
 import { QueryDecorator } from '@app/common/decorators/query.decorator'
-import { PaginateResult } from 'mongoose'
 
 @Controller('tag')
 export class TagController {

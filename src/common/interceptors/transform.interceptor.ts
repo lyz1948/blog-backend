@@ -7,14 +7,14 @@ import {
 import { Reflector } from '@nestjs/core'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import * as TEXT from '../constants/text.constant'
-import * as META from '../constants/meta.constant'
 import { PaginateResult } from 'mongoose'
+import * as TEXT from '@app/common/constants/text.constant'
+import * as META from '@app/common/constants/meta.constant'
 import {
 	EHttpStatus,
 	IHttpResultPaginate,
 	THttpSuccessResponse,
-} from '../interfaces/http.interface'
+} from '@app/common/interfaces/http.interface'
 
 export function transformDataToPaginate<T>(
 	data: PaginateResult<T>,

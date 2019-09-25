@@ -1,5 +1,5 @@
-import * as CONFIG from '@app/config/index'
-import { isDevMode } from '../../app.environment'
+import * as CONFIG from '@app/app.config'
+import { isDevMode } from '@app/app.environment'
 import {
 	Injectable,
 	NestMiddleware,

@@ -1,6 +1,6 @@
 import { AuthGuard } from '@nestjs/passport'
 import { Injectable, ExecutionContext } from '@nestjs/common'
-import { HttpUnauthorizeError } from '../errors/http.error'
+import { HttpUnauthorizeError } from '@app/common/errors/http.error'
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

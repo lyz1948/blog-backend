@@ -11,7 +11,7 @@ import {
 import {
 	mongoosePaginate,
 	mongooseAutoIncrement,
-} from '../../common/transforms/mongoose.transform'
+} from '@app/common/transforms/mongoose.transform'
 import {
 	EStateOrigin,
 	EStatePublic,
@@ -20,7 +20,7 @@ import {
 import { Extend } from '@app/common/models/extend.model'
 import { Category } from '@app/modules/category/category.model'
 import { Tag } from '@app/modules/tag/tag.model'
-import * as CONFIG from '@app/config/index'
+import * as CONFIG from '@app/app.config'
 
 // 元信息
 export class Meta {

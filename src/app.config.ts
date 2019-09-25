@@ -1,4 +1,4 @@
-import { environment, isDevMode } from '@app/app.environment'
+import { environment, isDevMode } from './app.environment'
 import { argv } from 'yargs'
 
 export const APP = {

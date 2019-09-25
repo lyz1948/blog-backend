@@ -1,8 +1,8 @@
 import { HttpStatus, SetMetadata } from '@nestjs/common'
-import { TMessage } from '../interfaces/http.interface'
-import * as META from '../constants/meta.constant'
-import * as TEXT from '../constants/text.constant'
 import * as lodash from 'lodash'
+import { TMessage } from '@app/common/interfaces/http.interface'
+import * as META from '@app/common/constants/meta.constant'
+import * as TEXT from '@app/common/constants/text.constant'
 
 interface IBuildDecoratorOpts {
 	errCode?: HttpStatus

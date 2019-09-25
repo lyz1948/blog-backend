@@ -6,7 +6,7 @@ import {
 	CallHandler,
 	ExecutionContext,
 } from '@nestjs/common'
-import { isDevMode } from '../../app.environment'
+import { isDevMode } from '@app/app.environment'
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {

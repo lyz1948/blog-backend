@@ -1,7 +1,7 @@
 import * as _mongoose from 'mongoose'
 import * as _mongoosePaginate from 'mongoose-paginate'
 import * as _mongooseAutoIncrement from 'mongoose-auto-increment'
-import * as CONFIG from '@app/config/index'
+import * as CONFIG from '@app/app.config'
 
 _mongoose.set('useFindAndModify', false)
 _mongoose.set('useNewUrlParser', true)

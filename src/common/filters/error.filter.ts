@@ -7,7 +7,7 @@ import {
 	HttpException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
-import { isDevMode } from '../../app.environment'
+import { isDevMode } from '@app/app.environment'
 import {
 	EHttpStatus,
 	THttpErrorResponse,

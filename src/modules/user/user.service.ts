@@ -1,4 +1,4 @@
-import { Injectable, HttpStatus } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from 'nestjs-typegoose'
 import { JwtService } from '@nestjs/jwt'
 import { createHash } from 'crypto'
@@ -7,8 +7,8 @@ import { Base64 } from 'js-base64'
 import { User } from './user.model'
 import { ITokenResult } from './user.interface'
 import { TMongooseModel } from '@app/common/interfaces/monoose.interface'
-import * as CONFIG from '@app/config/index'
 import { CustomError } from '@app/common/errors/custom.error'
+import * as CONFIG from '@app/app.config'
 
 @Injectable()
 export class UserService {

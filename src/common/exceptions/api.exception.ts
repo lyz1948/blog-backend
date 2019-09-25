@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { EApiErrorCode } from '../interfaces/api.error.interface';
+import { EApiErrorCode } from '@app/common/interfaces/api.error.interface';
 
 export class ApiException extends HttpException {
 
