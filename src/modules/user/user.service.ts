@@ -8,7 +8,7 @@ import { User } from './user.model'
 import { ITokenResult } from './user.interface'
 import { TMongooseModel } from '@app/common/interfaces/monoose.interface'
 import { CustomError } from '@app/common/errors/custom.error'
-import * as CONFIG from '@app/app.config'
+import * as CONFIG from '@app/config'
 
 @Injectable()
 export class UserService {

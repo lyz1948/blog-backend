@@ -18,7 +18,7 @@ export const ARTICLE = {
 }
 
 export const CROSS_DOMAIN = {
-	allowedOrigins: argv.sites || ['http://ykpine.com'],
+	allowedOrigins: argv.sites || ['http://ykpine.com', 'http://admin.ykpine.com'],
 }
 
 export const INFO = {

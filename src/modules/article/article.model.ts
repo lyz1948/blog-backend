@@ -20,7 +20,7 @@ import {
 import { Extend } from '@app/common/models/extend.model'
 import { Category } from '@app/modules/category/category.model'
 import { Tag } from '@app/modules/tag/tag.model'
-import * as CONFIG from '@app/app.config'
+import * as CONFIG from '@app/config'
 
 // 元信息
 export class Meta {
