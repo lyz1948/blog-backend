@@ -44,9 +44,7 @@ export class Tag extends Typegoose {
 	@arrayProp({ items: Extend })
 	extends?: Extend
 
-	_id?: Types.ObjectId
-
-	count?: number
+	// _id?: Types.ObjectId
 }
 
 const TagModelConfig = {

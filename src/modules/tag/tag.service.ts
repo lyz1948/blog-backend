@@ -10,8 +10,8 @@ export class TagService {
 		@InjectModel(Tag) private readonly tagModule: TMongooseModel<Tag>
 	) {}
 
-	async findAll(query, options): Promise<PaginateResult<Tag>> {
-		return await this.tagModule.paginate(query, options)
+	async findAll(querys, options): Promise<PaginateResult<Tag>> {
+		return await this.tagModule.paginate(querys, options)
 	}
 
 	async findOne(id): Promise<Tag> {

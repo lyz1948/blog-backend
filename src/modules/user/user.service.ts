@@ -66,7 +66,7 @@ export class UserService {
 
 	// 更新头像
 	async setAvatar(userId: string, avatarUrl: string) {
-		await this.userModel.update({ _id: userId }, { avatar: avatarUrl })
+		await this.userModel.updateOne({ _id: userId }, { avatar: avatarUrl })
 	}
 
 	// 查找所有用户

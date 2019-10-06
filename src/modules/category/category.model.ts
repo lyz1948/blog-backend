@@ -46,8 +46,6 @@ export class Category extends Typegoose {
 	@ArrayUnique()
 	@arrayProp({ items: Extend })
 	extends?: Extend[]
-
-	count?: number
 }
 
 const CategoryModelConfig = {

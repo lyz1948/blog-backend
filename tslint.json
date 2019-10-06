@@ -5,8 +5,8 @@
 		"no-unused-expression": true
 	},
 	"rules": {
-		"no-implicit-dependencies":[true, ["@app"]],
-  	"no-submodule-imports":[true, "@app"],
+		// "no-implicit-dependencies":[true, ["@app"]],
+  	// "no-submodule-imports":[true, "@app"],
 		"no-var-requires": false,
 		"no-console": [false],
 		"eofline": false,
@@ -24,7 +24,7 @@
 		],
 		"semicolon": [false, "never"],
 		"quotemark": [false, "single"],
-		"no-trailing-whitespace": true,
+		"no-trailing-whitespace": false,
 		"indent": false,
 		"member-access": [false],
 		"ordered-imports": [false],

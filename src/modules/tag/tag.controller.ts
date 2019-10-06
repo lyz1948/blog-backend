@@ -13,6 +13,7 @@ import { Tag } from './tag.model'
 import { TagService } from './tag.service'
 import { HttpProcessor } from '@app/common/decorators/http.decorator'
 import { QueryDecorator } from '@app/common/decorators/query.decorator'
+import * as lodash from 'lodash'
 
 @Controller('tag')
 export class TagController {
@@ -23,12 +24,22 @@ export class TagController {
 	@HttpProcessor.handle('获取文章标签')
 	async getTags(@QueryDecorator()
 	{
-		query,
+		querys,
 		options,
 		origin,
 		isAuthenticated,
 	}): Promise<PaginateResult<Tag>> {
-		return await this.tagService.findAll(query, options)
+		// 关键字搜索
+		const keyword = lodash.trim(origin.keyword)
+		if (keyword) {
+			const reKeyword = new RegExp(keyword, 'i')
+			querys.$or = [
+				{ name: reKeyword },
+				{ content: reKeyword },
+				{ description: reKeyword },
+			]
+		}
+		return await this.tagService.findAll(querys, options)
 	}
 
 	@Get('/:id')

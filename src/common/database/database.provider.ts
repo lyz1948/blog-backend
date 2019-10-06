@@ -8,10 +8,11 @@ export const databaseProviders = {
 
 		const RECONNECT_TIME = 6000
 		const connect = () =>
-			mongoose.connect(CONFIG.MONGO.uri, {
-				useCreateIndex: true,
+			mongoose.createConnection(CONFIG.MONGO.uri, {
 				useNewUrlParser: true,
 				useFindAndModify: false,
+				useCreateIndex: true,
+				useUnifiedTopology: true,
 				autoReconnect: true,
 				reconnectInterval: RECONNECT_TIME
 			})

@@ -12,6 +12,7 @@ import {
 	UseGuards,
 	HttpCode,
 } from '@nestjs/common'
+import * as lodash from 'lodash'
 import { ArticleService } from './article.service'
 import { Article } from './article.model'
 import { HttpProcessor } from '@app/common/decorators/http.decorator'
@@ -22,6 +23,7 @@ import {
 	QueryDecorator,
 	EQueryOptionField as QueryParams,
 } from '@app/common/decorators/query.decorator'
+import { EStateSortType } from '@app/common/interfaces/state.interface'
 
 @Controller('article')
 export class ArticleController {
@@ -30,14 +32,38 @@ export class ArticleController {
 	@Get()
 	@HttpProcessor.paginate()
 	@HttpProcessor.handle('获取文章列表')
-	getArticles(@QueryDecorator()
+	getArticles(@QueryDecorator([
+		QueryParams.Date, 
+		// QueryParams.State, QueryParams.Public, QueryParams.Origin,
+    'cache', 'tag', 'category', 'tag_slug', 'category_slug',
+	])
 	{
-		query,
+		querys,
 		options,
 		origin,
 		isAuthenticated,
 	}): Promise<PaginateResult<Article>> {
-		return this.articleService.getArticles(query, options)
+
+		if (Number(origin.sort) === EStateSortType.Hot) {
+			console.log('请求热门文章')
+		}
+
+		if (!isAuthenticated && querys.cache) {
+			console.log('从缓存获取');
+		}
+
+		// 关键字搜索
+		const keyword = lodash.trim(origin.keyword)
+		if (keyword) {
+			const reKeyword = new RegExp(keyword, 'i')
+			querys.$or = [
+				{ name: reKeyword },
+				{ content: reKeyword },
+				{ description: reKeyword },
+			]
+		}
+
+		return this.articleService.getArticles(querys, options)
 	}
 
 	@Get('/:id')
