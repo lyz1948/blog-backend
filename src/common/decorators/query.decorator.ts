@@ -64,7 +64,7 @@ interface IValidateError {
 export const QueryDecorator = createParamDecorator(
 	(customConfig: TQueryConfig[], request: any): IQueryParamsResult => {
 		// 是否已验证权限
-		const isAuthenticated = request.isAuthenticated()
+		const isAuthenticated = request.isAuthenticated
 		// 默认参数
 		const transformConfig: IQueryParamsConfig = {
 			[EQueryOptionField.Page]: 1,

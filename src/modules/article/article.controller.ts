@@ -34,7 +34,7 @@ export class ArticleController {
 	@HttpProcessor.handle('获取文章列表')
 	getArticles(@QueryDecorator([
 		QueryParams.Date, 
-		// QueryParams.State, QueryParams.Public, QueryParams.Origin,
+		QueryParams.State, QueryParams.Public, QueryParams.Origin,
     'cache', 'tag', 'category', 'tag_slug', 'category_slug',
 	])
 	{
@@ -43,7 +43,7 @@ export class ArticleController {
 		origin,
 		isAuthenticated,
 	}): Promise<PaginateResult<Article>> {
-
+		
 		if (Number(origin.sort) === EStateSortType.Hot) {
 			console.log('请求热门文章')
 		}

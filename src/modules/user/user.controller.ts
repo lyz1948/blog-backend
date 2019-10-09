@@ -5,17 +5,20 @@ import {
 	Body,
 	HttpCode,
 	Put,
+	UseGuards,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { ITokenResult } from './user.interface'
 import { User, UserLogin } from './user.model'
 import { HttpProcessor } from '@app/common/decorators/http.decorator'
+import { JwtAuthGuard } from '@app/common/guards/auth.guard'
 
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	@Get()
+	@UseGuards(JwtAuthGuard)
 	getUsers(): Promise<User[]> {
 		return this.userService.findAll()
 	}
