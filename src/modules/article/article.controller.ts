@@ -1,10 +1,7 @@
 import {
 	Controller,
 	Get,
-	Res,
 	Param,
-	NotFoundException,
-	HttpStatus,
 	Post,
 	Body,
 	Delete,
