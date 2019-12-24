@@ -1,14 +1,14 @@
 import {
-	Controller,
-	Get,
-	Post,
-	Param,
-	Res,
-	Body,
-	UseInterceptors,
-	UploadedFile,
-	UploadedFiles,
-	HttpCode,
+  Controller,
+  Get,
+  Post,
+  Param,
+  Res,
+  Body,
+  UseInterceptors,
+  UploadedFile,
+  UploadedFiles,
+  HttpCode,
 } from '@nestjs/common'
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 import { extname } from 'path'
@@ -17,88 +17,102 @@ import { PaginateResult } from 'mongoose'
 import { Upload } from './upload.model'
 import { UploadService } from './upload.service'
 import { HttpProcessor } from '@app/common/decorators/http.decorator'
-
-const pngFileFilter = (req, file, callback) => {
-	const ext = extname(file.originalname)
-	if (ext !== '.png') {
-		req.fileValidationError = 'Invalid file type'
-		return callback(new Error('Invalid file type'), false)
-	}
-
-	return callback(null, true)
-}
+import { imageFileFilter, editFileName } from '@app/utils'
 
 @Controller('upload')
 export class UploadController {
-	constructor(private readonly uploadService: UploadService) {}
+  constructor(private readonly uploadService: UploadService) {}
 
-	@Post('/files')
-	@UseInterceptors(
-		FilesInterceptor('files[]', 10, {
-			fileFilter: pngFileFilter,
-		})
-	)
-	logFiles(@UploadedFiles() files, @Body() fileDto) {
-		return 'Done'
-	}
+	// 批量图片上传
+  @Post('multiple')
+  @UseInterceptors(
+    FilesInterceptor('image', 20, {
+      storage: diskStorage({
+        destination: './uploads/files',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    })
+  )
+  async uploadMultipleFiles(@UploadedFiles() files) {
+    const response = []
+    files.forEach(file => {
+      const fileReponse = {
+        originalname: file.originalname,
+        filename: file.filename,
+      }
+      response.push(fileReponse)
+    })
+    return response
+  }
 
-	@Get('/article/:fileId')
-	getArticleImage(@Param('fileId') fileId, @Res() res) {
-		res.sendFile(fileId, { root: 'uploads/article' })
-	}
+	// 批量文件上传
+  @Post('/files')
+  @UseInterceptors(
+    FilesInterceptor('files[]', 10, {
+      fileFilter: imageFileFilter,
+    })
+  )
+  logFiles(@UploadedFiles() files, @Body() fileDto) {
+    return 'Done'
+  }
 
-	@Get('/article')
-	getAritcleImages(
-		querys: string,
-		options: any
-	): Promise<PaginateResult<Upload>> {
-		return this.uploadService.getImages(querys, options)
-	}
+  @Get('/article/:fileId')
+  getArticleImage(@Param('fileId') fileId, @Res() res) {
+    res.sendFile(fileId, { root: 'uploads/article' })
+  }
 
-	@Get('/avatar/:fileId')
-	async serveAvatar(@Param('fileId') fileId, @Res() res) {
-		res.sendFile(fileId, { root: 'uploads' })
-	}
+  @Get('/article')
+  getAritcleImages(
+    querys: string,
+    options: any
+  ): Promise<PaginateResult<Upload>> {
+    return this.uploadService.getImages(querys, options)
+  }
 
-	@Post('/article')
-	@HttpCode(200)
-	@HttpProcessor.handle({ message: '上传文章缩略图', usePaginate: false })
-	@UseInterceptors(
-		FileInterceptor('image', {
-			storage: diskStorage({
-				destination: './uploads/article',
-				filename: (req, file, cb) => {
-					const randomName = Array(32)
-						.fill(null)
-						.map(() => Math.round(Math.random() * 16).toString(16))
-						.join('')
-					return cb(null, `${randomName}${extname(file.originalname)}`)
-				},
-			}),
-		})
-	)
-	uploadArticleThumb(@UploadedFile() image) {
-		return this.uploadService.uploadImage(image)
-	}
+  @Get('/avatar/:fileId')
+  async serveAvatar(@Param('fileId') fileId, @Res() res) {
+    res.sendFile(fileId, { root: 'uploads' })
+  }
 
-	@Post('/avatar')
-	@HttpCode(200)
-	@HttpProcessor.handle({ message: '上传头像', usePaginate: false })
-	@UseInterceptors(
-		FileInterceptor('image', {
-			storage: diskStorage({
-				destination: './uploads/avatars',
-				filename: (req, file, cb) => {
-					const randomName = Array(32)
-						.fill(null)
-						.map(() => Math.round(Math.random() * 16).toString(16))
-						.join('')
-					return cb(null, `${randomName}${extname(file.originalname)}`)
-				},
-			}),
-		})
-	)
-	uploadAvatar(@UploadedFile() avatar) {
-		return this.uploadService.uploadImage(avatar)
-	}
+	// 文章缩略图
+  @Post('/article')
+  @HttpCode(200)
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads/article',
+        filename: editFileName,
+      }),
+    })
+  )
+  async uploadArticleThumb(@UploadedFile() file) {
+		const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    }
+		return response
+  }
+
+	// 头像上传
+  @Post('/avatar')
+  @HttpCode(200)
+  @HttpProcessor.handle({ message: '上传头像', usePaginate: false })
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads/avatars',
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('')
+          return cb(null, `${randomName}${extname(file.originalname)}`)
+        },
+      }),
+    })
+  )
+  uploadAvatar(@UploadedFile() avatar) {
+    return this.uploadService.uploadImage(avatar)
+  }
 }

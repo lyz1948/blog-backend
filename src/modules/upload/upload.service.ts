@@ -6,20 +6,23 @@ import { Upload } from './upload.model'
 
 @Injectable()
 export class UploadService {
-	constructor(
-		@InjectModel(Upload) private readonly uploadModel: TMongooseModel<Upload>
-	) {}
+  constructor(
+    @InjectModel(Upload) private readonly uploadModel: TMongooseModel<Upload>
+  ) {}
 
-	async getImages(query, options): Promise<PaginateResult<Upload>> {
-		return await this.uploadModel.paginate(query, options)
-	}
+  async getImages(query, options): Promise<PaginateResult<Upload>> {
+    return await this.uploadModel.paginate(query, options)
+  }
 
-	async getImage(fileId: string): Promise<Upload> {
-		return await this.uploadModel.findById(fileId).exec()
-	}
+  async getImage(fileId: string): Promise<Upload> {
+    return await this.uploadModel.findById(fileId).exec()
+  }
 
-	async uploadImage(image: Upload): Promise<any> {
-		const imageObj = await new this.uploadModel(image).save()
-		return imageObj.path
-	}
+  async uploadImage(file: Upload): Promise<any> {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    }
+    return await new this.uploadModel(response).save()
+  }
 }
