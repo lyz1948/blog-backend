@@ -65,8 +65,8 @@ export class ArticleController {
 
 	@Get('/:id')
 	@HttpProcessor.handle({ message: '获取文章详情', usePaginate: false })
-	getArticle(@Param('id') id): Promise<Article> {
-		return this.articleService.findOne(id)
+	async getArticle(@Param('id') id): Promise<Article> {
+		return await this.articleService.findOne(id)
 	}
 
 	@Post()
