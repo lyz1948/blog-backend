@@ -48,7 +48,7 @@ export class UserLogin extends Typegoose {
 	@IsDefined()
 	@IsNotEmpty({ message: '用户名？' })
 	@IsString({ message: '字符串？' })
-	name: string
+	username: string
 
 	@IsDefined()
 	@IsNotEmpty({ message: '密码？' })

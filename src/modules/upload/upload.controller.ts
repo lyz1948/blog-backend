@@ -84,6 +84,7 @@ export class UploadController {
         destination: './uploads/article',
         filename: editFileName,
       }),
+      fileFilter: imageFileFilter,
     })
   )
   async uploadArticleThumb(@UploadedFile() file) {
@@ -102,17 +103,12 @@ export class UploadController {
     FileInterceptor('image', {
       storage: diskStorage({
         destination: './uploads/avatars',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('')
-          return cb(null, `${randomName}${extname(file.originalname)}`)
-        },
+        filename: editFileName,
       }),
+      fileFilter: imageFileFilter,
     })
   )
-  uploadAvatar(@UploadedFile() avatar) {
-    return this.uploadService.uploadImage(avatar)
+  async uploadAvatar(@UploadedFile() image) {
+    return image
   }
 }
