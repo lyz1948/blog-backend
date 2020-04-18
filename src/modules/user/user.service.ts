@@ -158,7 +158,6 @@ export class UserService {
   // 用户登录
   signIn(userInfo: any): Promise<ITokenResult> {
     const { username, password } = userInfo
-    console.log(username, password)
 
     return this.userModel
       .findOne({ username })
@@ -168,7 +167,6 @@ export class UserService {
         const existName = this.getExistUsername(user)
         const submittedPwd = this.makeMD5(this.decodeBase64(password))
 
-        console.log('existName: ', existName)
         if (existName === username && existPwd === submittedPwd) {
           // 对比密码是否相同
           return Promise.resolve(this.createToken())
