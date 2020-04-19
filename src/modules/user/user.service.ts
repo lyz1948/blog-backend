@@ -173,8 +173,7 @@ export class UserService {
         }
         throw new CustomError({
           message: '用户名或密码错误',
-          error: new Error('400'),
-        })
+        }, 400)
       })
   }
 }
