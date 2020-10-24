@@ -46,7 +46,7 @@ export class UserController {
 	@Put('/profile')
 	@HttpCode(200)
 	@HttpProcessor.handle('更新管理员信息')
-	updateUserInfo(@Body() user: any): Promise<User> {
+	updateUserInfo(@Body() user: any): Promise<any> {
 		return this.userService.update(user)
 	}
 }

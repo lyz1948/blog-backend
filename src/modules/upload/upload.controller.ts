@@ -11,7 +11,6 @@ import {
   HttpCode,
 } from '@nestjs/common'
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
-import { extname } from 'path'
 import { diskStorage } from 'multer'
 import { PaginateResult } from 'mongoose'
 import { Upload } from './upload.model'

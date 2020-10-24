@@ -16,3 +16,14 @@ export const editFileName = (req, file, callback) => {
     .join('')
   callback(null, `${name}-${randomName}${fileExtName}`)
 }
+
+export const deepCopy = obj => {
+  if (typeof obj !== 'object') return
+  const result = obj instanceof Array ? [] : {}
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      result[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key]
+    }
+  }
+  return result
+}

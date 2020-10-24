@@ -5,23 +5,30 @@ import { Site } from './site.model'
 
 @Injectable()
 export class SiteService {
-	constructor(
-		@InjectModel(Site) private readonly siteModule: TMongooseModel<Site>
-	) {}
+  constructor(
+    @InjectModel(Site) private readonly siteModule: TMongooseModel<Site>
+  ) {}
 
-	async getSite(): Promise<Site> {
-		return await this.siteModule.findOne().exec()
-	}
+  async getSite(): Promise<Site> {
+    return await this.siteModule.findOne().exec()
+  }
 
-	async setSite(siteOption: Site): Promise<Site> {
-		Reflect.deleteProperty(siteOption, '_id')
-		Reflect.deleteProperty(siteOption, 'vote')
+  async setSite(siteOption: Site): Promise<Site> {
+    console.log('siteOption: ', siteOption);
+    Reflect.deleteProperty(siteOption, '_id')
+    Reflect.deleteProperty(siteOption, 'vote')
 
-		console.log('fdsa', siteOption)
-
-		const siteConfig = await this.siteModule.findOne().exec()
-		return siteConfig
-			? Object.assign(siteConfig, siteOption).save()
-			: new this.siteModule(siteOption).save()
-	}
+    const siteConfig = await this.siteModule
+      .findOne(null, '_id title sub_title description email domain icp blacklist keywords')
+      .exec()
+    if (siteConfig) {
+      const mergeObj = Object.assign(siteConfig, siteOption)
+      console.log('mergeObj: ', mergeObj)
+      return mergeObj.save()
+    }
+    return new this.siteModule(siteOption).save()
+    // return siteConfig
+    //   ? (Object.assign(siteConfig, siteOption)).save()
+    //   : new this.siteModule(siteOption).save()
+  }
 }

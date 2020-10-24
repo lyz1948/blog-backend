@@ -17,26 +17,14 @@ import {
 	incrementBy: 1,
 })
 export class User extends Typegoose {
-	@IsDefined()
-	@IsString({ message: '用户名？' })
-	@prop({ default: 'visit' })
+	@prop()
 	username: string
-
-	@IsDefined()
-	@IsString({ message: '口头禅？' })
-	@prop({ default: '' })
+	
+	@prop()
 	slogan: string
+	
+	avatar?: string
 
-	@IsDefined()
-	@IsString({ message: '头像？' })
-	@prop({
-		default: 'https://avatars1.githubusercontent.com/u/15190827?s=460&v=4',
-	})
-	avatar: string
-
-	@IsDefined()
-	@IsString({ message: '密码？' })
-	@prop({ default: 'root' })
 	password?: string
 
 	_id?: string

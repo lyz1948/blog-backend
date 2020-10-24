@@ -94,7 +94,6 @@ export class UserService {
   update(user: any): Promise<User> {
     const password = this.decodeBase64(user.password)
     const newPassword = this.decodeBase64(user.password_new)
-
     Reflect.deleteProperty(user, 'password')
     Reflect.deleteProperty(user, 'password_new')
 
@@ -127,7 +126,6 @@ export class UserService {
           exsitUser && !!exsitUser._id
             ? Object.assign(exsitUser, user)
                 .save()
-                .exec()
             : new this.userModel(user).save()
 
         return action.then(data => {
@@ -145,7 +143,7 @@ export class UserService {
 
   // 获取用户信息
   async getUserInfo(): Promise<User> {
-    return await this.userModel.findOne(null, '_id, name slogan avatar').exec()
+    return await this.userModel.findOne(null, '_id username slogan avatar').exec()
   }
 
   // 注册

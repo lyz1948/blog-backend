@@ -70,7 +70,7 @@ export class Site extends Typegoose {
 	@prop({ required: true })
 	icp: string
 
-	@prop()
+	@prop({ _id: false })
 	blacklist?: Blacklist
 
 	@prop()
