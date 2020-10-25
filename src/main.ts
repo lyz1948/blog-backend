@@ -18,6 +18,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
   app.use(BodyParser.urlencoded({ extended: true }))
   app.use(BodyParser.json())
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -25,11 +26,13 @@ async function bootstrap() {
     })
   )
   app.useGlobalFilters(new HttpExceptionFilter())
+
   app.useGlobalInterceptors(
     new LoggingInterceptor(),
     new ErrorInterceptor(new Reflector()),
     new TransformInterceptor(new Reflector())
   )
+  
   app.useStaticAssets(join(__dirname, '..'))
 
   // swagger
