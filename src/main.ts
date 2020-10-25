@@ -32,7 +32,7 @@ async function bootstrap() {
     new ErrorInterceptor(new Reflector()),
     new TransformInterceptor(new Reflector())
   )
-  
+
   app.useStaticAssets(join(__dirname, '..'))
 
   // swagger
@@ -47,7 +47,6 @@ async function bootstrap() {
 
   // const document = SwaggerModule.createDocument(app, options)
   // SwaggerModule.setup('api', app, document)
-
   await app.listen(CONFIG.APP.port)
 }
 
