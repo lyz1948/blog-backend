@@ -43,6 +43,7 @@ export class UserService {
   private getExistPassword(user: any): string {
     if (user) {
       user = user.toObject()
+      console.log('user.password:', user.password)
       return user.password || this.makeMD5(CONFIG.USER.defaultPwd as string)
     }
   }
@@ -147,10 +148,16 @@ export class UserService {
   }
 
   // 注册
-  async signUp(user: User): Promise<User> {
+  async signUp(user: User): Promise<any> {
     const { password } = user
     user = Object.assign(user, { password: this.makeMD5(password) })
-    return await new this.userModel(user).save()
+    console.log('user:', user)
+    const action = new this.userModel(user).save()
+    return action.then(data => {
+      console.log('data:', data)
+      data = data.toObject()
+      return Promise.resolve(data)
+    })
   }
 
   // 用户登录
@@ -161,9 +168,12 @@ export class UserService {
       .findOne({ username })
       .exec()
       .then(user => {
+        console.log('user:', user)
         const existPwd = this.getExistPassword(user)
+        console.log('existPwd:', existPwd)
         const existName = this.getExistUsername(user)
-        const submittedPwd = this.makeMD5(this.decodeBase64(password))
+        const submittedPwd = this.makeMD5(password)
+        console.log('submittedPwd:', submittedPwd)
 
         if (existName === username && existPwd === submittedPwd) {
           // 对比密码是否相同

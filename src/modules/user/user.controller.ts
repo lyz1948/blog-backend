@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { ITokenResult } from './user.interface'
-import { User, UserLogin } from './user.model'
+import { User } from './user.model'
 import { HttpProcessor } from '@app/common/decorators/http.decorator'
 import { JwtAuthGuard } from '@app/common/guards/auth.guard'
 
@@ -32,14 +32,15 @@ export class UserController {
 	@Post('/signup')
 	@HttpProcessor.handle('用户注册')
 	@HttpCode(200)
-	signUp(@Body() user: any): Promise<User> {
+	signUp(@Body() user: User): Promise<any> {
+		console.log('user:', user)
 		return this.userService.signUp(user)
 	}
 
 	@Post('/signin')
 	@HttpCode(200)
 	@HttpProcessor.handle('用户登录')
-	signIn(@Body() user: UserLogin): Promise<ITokenResult> {
+	signIn(@Body() user: User): Promise<ITokenResult> {
 		return this.userService.signIn(user)
 	}
 

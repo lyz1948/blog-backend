@@ -9,7 +9,7 @@ export const APP = {
 }
 
 export const MONGO = {
-	uri: `mongodb://127.0.0.1:${argv.dbport || 27017}/nest`,
+	uri: `mongodb://192.168.88.11:${argv.dbport || 19999}/nest`,
 }
 
 export const ARTICLE = {
@@ -26,9 +26,9 @@ export const INFO = {
 }
 
 export const USER = {
-	data: argv.user_data || { user: 'root' },
-	defaultUser: argv.user_name || 'root',
-	defaultPwd: argv.user_password || 'root',
+	data: argv.user_data || { user: 'test' },
+	defaultUser: argv.user_name || 'test',
+	defaultPwd: argv.user_password || 'adminadmin',
 	jwtTokenSecret: argv.user_token_key || 'nestblog',
 	expiresIn: argv.user_expires || 3600,
 }
